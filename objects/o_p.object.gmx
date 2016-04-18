@@ -33,7 +33,7 @@ attack = 1;
 can_select = true;
 is_selected = false;
 is_leader = false;
-squad = 0;
+squad_id = 0;
 </string>
           </argument>
         </arguments>
@@ -57,12 +57,25 @@ squad = 0;
           <argument>
             <kind>1</kind>
             <string>/// SPRITE MOVEMENT
+
+// SELECT IF WITHIN SELECTION BOX
 if (mouse_check_button_released(mb_left)) {
    if (point_in_rectangle(x, y, global.start_x, global.start_y, global.end_x, global.end_y)) {
       is_selected = true;
    }
    else is_selected = false;
 }
+// SELECT SQUAD
+if (is_selected) {
+   for (var i = 0; i &lt; instance_number(o_p); i++) {
+          var squadie = instance_find(o_p, i);
+          if (squadie != noone) {
+             show_debug_message("Squadie: " + string(squadie.squad_id) + "  AND: " + string(squad_id));
+             if (squadie.squad_id == squad_id) squadie.is_selected = true;
+          }
+      }
+}
+// MOVE TO VIA PATH
 if (is_selected &amp;&amp; mouse_check_button(mb_right)) {
     image_xscale = 1;
     var path = path_add();

@@ -22,5 +22,5 @@ for (var i = 0; i < size; i++) {
        squadie.x = base_x;
        squadie.y = base_y;
     }
-    squadie.squad = squad_id;
+    squadie.squad_id = squad_id;
 }
