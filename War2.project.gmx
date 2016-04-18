@@ -15,6 +15,9 @@
     <background>background\tile_summer</background>
   </backgrounds>
   <paths name="paths"/>
+  <scripts name="scripts">
+    <script>scripts\s_create_squad.gml</script>
+  </scripts>
   <objects name="objects">
     <object>objects\o_p</object>
     <object>objects\o_cover</object>

@@ -27,19 +27,21 @@
             <kind>1</kind>
             <string>/// INSTANTIATE WORLD
 global.grid = mp_grid_create(0, 0, room_width, room_height, 16, 16);
-
-can_select = false;
-
-instance_create(192, 64, o_p);
-instance_create(352, 64, o_p);
-
 global.start_x = 0;
 global.start_y = 0;
 global.end_x = 0;
 global.end_y = 0;
+global.squads = ds_list_create();
 
 selected = noone;
 draw = false;
+
+// TESTING ZONE
+
+//instance_create(192, 64, o_p);
+//instance_create(352, 64, o_p);
+s_create_squad(192, 64, o_p, 3);
+s_create_squad(352, 64, o_p, 5);
 </string>
           </argument>
         </arguments>
