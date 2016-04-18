@@ -10,6 +10,7 @@
     <sprite>sprites\p_s</sprite>
     <sprite>sprites\p_e</sprite>
     <sprite>sprites\s_c</sprite>
+    <sprite>sprites\sp_waypoint</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\tile_summer</background>
@@ -17,11 +18,15 @@
   <paths name="paths"/>
   <scripts name="scripts">
     <script>scripts\s_create_squad.gml</script>
+    <script>scripts\s_find_nearest_spot.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\o_p</object>
+    <object>objects\o_b_select</object>
     <object>objects\o_cover</object>
     <object>objects\o_game</object>
+    <object>objects\o_b_collied</object>
+    <object>objects\o_waypoint</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>
