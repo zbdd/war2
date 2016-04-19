@@ -19,6 +19,9 @@
         <sprite>sprites\spr_orc</sprite>
       </sprites>
     </sprites>
+    <sprites name="Buildings">
+      <sprite>sprites\spr_farm</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background">
     <background>background\tile_summer</background>
@@ -27,6 +30,7 @@
   <scripts name="scripts">
     <script>scripts\s_create_squad.gml</script>
     <script>scripts\s_find_nearest_spot.gml</script>
+    <script>scripts\s_create_grid.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\o_cover</object>

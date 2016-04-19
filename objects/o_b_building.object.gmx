@@ -30,6 +30,8 @@ defense = 1;
 on_fire = 0;
 burn_rate = 1;
 can_select = true;
+image_speed = 0;
+depth = y * -1;
 </string>
           </argument>
         </arguments>

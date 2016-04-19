@@ -81,6 +81,9 @@
     <instance objName="o_cover" x="192" y="256" name="inst_12D43C75" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="o_cover" x="224" y="256" name="inst_B8FAC017" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="o_cover" x="256" y="256" name="inst_E25C453D" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="o_farm" x="256" y="160" name="inst_09AB3C44" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="o_farm" x="320" y="224" name="inst_BBC6B805" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="o_farm" x="224" y="288" name="inst_738C734A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles>
     <tile bgName="tile_summer" x="64" y="160" w="32" h="32" xo="132" yo="627" id="10000002" name="inst_E3C6F9F0" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>

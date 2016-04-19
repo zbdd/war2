@@ -65,6 +65,8 @@ sprite_south = spr_p_s;
             <kind>1</kind>
             <string>/// SPRITE MOVEMENT
 
+depth = y * -1;
+
 // SELECT IF WITHIN SELECTION BOX
 if (mouse_check_button_released(mb_left)) {
    if (point_in_rectangle(x, y, global.start_x, global.start_y, global.end_x, global.end_y)) {
@@ -93,10 +95,18 @@ if (is_selected &amp;&amp; mouse_check_button(mb_right)) {
    end_x = mouse_x;
    end_y = mouse_y;
 
+   var grid = s_create_grid();
+   
    var waypoint = instance_create(end_x,end_y,o_waypoint);
-    waypoint = s_find_nearest_spot(waypoint, self);
-    mp_grid_path(global.grid, path, x, y, waypoint.x, waypoint.y, true);
-    path_start(path, move_speed, path_action_stop, false);
+   waypoint = s_find_nearest_spot(waypoint, self, grid);
+   
+   if (waypoint) {
+      mp_grid_path(grid, path, x, y, waypoint.x, waypoint.y, true);
+      path_start(path, move_speed, path_action_stop, false);
+    }
+    
+    mp_grid_destroy(grid);
+    
     image_speed = 0.3;
     
     direction = point_direction(x,y,mouse_x,mouse_y);

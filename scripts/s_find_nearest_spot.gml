@@ -1,5 +1,6 @@
 go_to = argument0
 mover = argument1
+grid = argument2;
 attempt = 0;
 radius = 10
 force_break = 3;
@@ -40,7 +41,7 @@ do {
     for(idw = 0; idw < ds_list_size(tmp_waypoint); idw++) {
         go_to = tmp_waypoint[| idw];
         if (instance_exists(go_to)) {
-            if (mp_grid_path(global.grid, mover.path, x, y, go_to.x, go_to.y, true)) {
+            if (mp_grid_path(grid, mover.path, x, y, go_to.x, go_to.y, true)) {
                 with (tmp_waypoint[| idw]) { other.go_to = instance_copy(false) };
                 go_to.parent = argument0
                 ds_list_destroy(tmp_waypoint);
@@ -57,6 +58,6 @@ do {
     // show_debug_message("EXIT POINT 2");
       return noone
     }
-} until (mp_grid_path(global.grid, mover.path, x, y, go_to.x, go_to.y, true))
+} until (mp_grid_path(grid, mover.path, x, y, go_to.x, go_to.y, true))
 //show_debug_message("EXIT POINT 3");
 return go_to
