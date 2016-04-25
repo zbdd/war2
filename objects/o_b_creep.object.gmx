@@ -33,14 +33,89 @@ attack = 1;
 can_select = true;
 is_selected = false;
 is_leader = false;
+waypoint = noone;
+go_to = noone;
 squad_id = 0;
 end_x = 0;
 end_y = 0;
+grid = noone;
 path = path_add();
+select = false;
+run_once = noone;
 move_speed = 3;
+action = "default"
+amount = 0;
+state = "default";
+next_state = "default";
+last_state = "default";
+state_count = 0;
 sprite_east = spr_p_e;
 sprite_north = spr_p_n;
 sprite_south = spr_p_s;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="2">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// RUN ONCE
+
+// SELECT SQUAD
+if (run_once = "select") {
+   is_selected = true;
+   found = -1;
+    for (var i = 0; i &lt; ds_list_size(global.squads); i++) {
+        squad = global.squads[| i];
+        
+        for (var o = 0; o &lt; ds_list_size(squad); o++) {
+            if (squad_id == squad[| o].squad_id) squad[| o].is_selected = true;
+        }
+    }
+    select = false;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// STATE: END
+last_state = state;
+if (next_state == state) state_count++
+else state_count = 0;
+state = next_state;
+run_once = noone;
+
 </string>
           </argument>
         </arguments>
@@ -63,53 +138,77 @@ sprite_south = spr_p_s;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// SPRITE MOVEMENT
-
+            <string>/// STATE: DEFAULT
 depth = y * -1;
 
 // SELECT IF WITHIN SELECTION BOX
 if (mouse_check_button_released(mb_left)) {
    if (point_in_rectangle(x, y, global.start_x, global.start_y, global.end_x, global.end_y)) {
-      is_selected = true;
+      run_once = "select";
    }
    else is_selected = false;
 }
-// SELECT SQUAD
-
-
-if (is_selected) {
-   found = -1;
-    for (var i = 0; i &lt; ds_list_size(global.squads); i++) {
-        squad = global.squads[| i];
-        
-        for (var o = 0; o &lt; ds_list_size(squad); o++) {
-            if (squad_id == squad[| o].squad_id) squad[| o].is_selected = true;
-        }
-    }
-}
 // MOVE TO VIA PATH
-if (is_selected &amp;&amp; mouse_check_button(mb_right)) {
-    image_xscale = 1;
-    path = path_add();
-    
-   end_x = mouse_x;
-   end_y = mouse_y;
+if (is_selected &amp;&amp; mouse_check_button_pressed(mb_right)) {
+   next_state = "move"; 
+   waypoint = noone;
+}
 
-   var grid = s_create_grid();
-   
-   var waypoint = instance_create(end_x,end_y,o_waypoint);
-   waypoint = s_find_nearest_spot(waypoint, self, grid);
-   
-   if (waypoint) {
-      mp_grid_path(grid, path, x, y, waypoint.x, waypoint.y, true);
-      path_start(path, move_speed, path_action_stop, false);
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// STATE: MOVE
+if (state == "move") {
+   if (waypoint == noone) {
+       image_xscale = 1;
+        path = path_add();
+        path_pos = 1;
+        
+       end_x = mouse_x;
+       end_y = mouse_y;
+    
+       grid = s_create_grid();
+       
+       waypoint = instance_create(end_x,end_y,o_waypoint);
+       var herepoint = instance_create(x, y, o_waypoint);
+       waypoint = s_find_nearest_spot(waypoint, herepoint, grid);
+       
+       if (waypoint != noone) {
+          mp_grid_path(grid, path, x, y, waypoint.x, waypoint.y, true);
+          path_start(path, move_speed, path_action_stop, false);
+          mp_grid_destroy(grid);
+        }
+        else next_state = "default";
+    
+        image_speed = 0.3;
+        next_state = "move";
+    }
+    if (path_position == 1 &amp;&amp; waypoint != noone) {
+       image_speed = 0;
+       image_index = 0;
+       var inst = instance_position(end_x, end_y, o_b_resource);
+       if (inst != noone) next_state = "gather";
+       else next_state = "default";
+       waypoint = noone;
     }
     
-    mp_grid_destroy(grid);
-    
-    image_speed = 0.3;
-    
-    direction = point_direction(x,y,mouse_x,mouse_y);
     if (direction &gt;= 305 || direction &lt;= 45) sprite_index = sprite_east;
     else if (direction &gt;= 46 &amp;&amp; direction &lt;= 135) sprite_index = sprite_north;
     else if (direction &gt;= 136 &amp;&amp; direction &lt;= 225) {
@@ -118,10 +217,7 @@ if (is_selected &amp;&amp; mouse_check_button(mb_right)) {
     }
     else if (direction &gt;= 226 &amp;&amp; direction &lt;= 304) sprite_index = sprite_south;
 }
-if (path_position == 1) {
-   image_speed = 0;
-   image_index = 0;
-}
+
 </string>
           </argument>
         </arguments>
@@ -183,6 +279,8 @@ if (defense &gt; 0) {
 if (is_leader) {
    image_blend = c_red;
 }
+draw_set_colour(c_red);
+draw_text(x - sprite_width/2, y - sprite_height, state);
 
 // DEBUG
 if (path_position != 1) draw_path(path, x, y, true);

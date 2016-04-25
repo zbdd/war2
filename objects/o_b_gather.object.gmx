@@ -7,7 +7,103 @@
   <persistent>0</persistent>
   <parentName>o_b_collied</parentName>
   <maskName>&lt;undefined&gt;</maskName>
-  <events/>
+  <events>
+    <event eventtype="0" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>event_inherited();
+previous_sprite = spr_p_e;
+sprite_gather_north = spr_p_g_n;
+sprite_gather_south = spr_p_g_s;
+sprite_gather_east = spr_p_g_e;
+gather_time = room_speed * 2;
+gather_image_speed = 0.4;
+gather_amount = 10;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="1">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// GATHERED RESOURCE
+amount += gather_amount;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// TO GATHER
+event_inherited();
+
+if (state == "gather") {
+   if (waypoint != noone) {
+      for (ida = 0; ida &lt;= instance_number(o_b_resource); ida++) {
+          close = instance_find(o_b_resource, ida);
+          if (distance_to_object(close) &lt; distance_to_object(waypoint)) waypoint = close;
+      }
+
+        //show_debug_message(string(distance_to_object(go_to)));
+        if (distance_to_object(go_to) &lt;= 16) {
+           previous_sprite = sprite_index;
+           sprite_index = spr_p_g_e;
+           image_speed = gather_image_speed;
+           alarm[1] = gather_time;
+        }
+   }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+  </events>
   <PhysicsObject>0</PhysicsObject>
   <PhysicsObjectSensor>0</PhysicsObjectSensor>
   <PhysicsObjectShape>0</PhysicsObjectShape>

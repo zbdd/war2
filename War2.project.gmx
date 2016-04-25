@@ -14,6 +14,9 @@
         <sprite>sprites\spr_p_s</sprite>
         <sprite>sprites\spr_p_e</sprite>
         <sprite>sprites\spr_p_wood</sprite>
+        <sprite>sprites\spr_p_g_n</sprite>
+        <sprite>sprites\spr_p_g_e</sprite>
+        <sprite>sprites\spr_p_g_s</sprite>
       </sprites>
       <sprites name="Orc">
         <sprite>sprites\spr_orc</sprite>
@@ -21,6 +24,10 @@
     </sprites>
     <sprites name="Buildings">
       <sprite>sprites\spr_farm</sprite>
+      <sprite>sprites\spr_keep</sprite>
+    </sprites>
+    <sprites name="Gather">
+      <sprite>sprites\spr_tree</sprite>
     </sprites>
   </sprites>
   <backgrounds name="background">
@@ -41,15 +48,19 @@
         <object>objects\o_b_creep</object>
         <object>objects\o_b_collied</object>
         <object>objects\o_b_gather</object>
-        <object>objects\o_b_resource</object>
       </objects>
       <object>objects\o_p</object>
     </objects>
     <objects name="Buildings">
       <objects name="Base">
         <object>objects\o_b_building</object>
+        <object>objects\o_b_resource</object>
+        <objects name="Gather">
+          <object>objects\o_tree</object>
+        </objects>
       </objects>
       <object>objects\o_farm</object>
+      <object>objects\o_goldmine</object>
     </objects>
   </objects>
   <rooms name="rooms">
