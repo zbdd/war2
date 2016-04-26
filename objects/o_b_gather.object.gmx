@@ -34,6 +34,7 @@ sprite_gather_east = spr_p_g_e;
 gather_time = room_speed * 2;
 gather_image_speed = 0.3;
 gather_amount = 10;
+gather_search_distance = 100;
 </string>
           </argument>
         </arguments>
@@ -106,14 +107,17 @@ if (state == "gather" &amp;&amp; alarm[1] &lt;= -1) {
       
     if (target != noone &amp;&amp; object_is_ancestor(target.object_index, o_b_resource)) {
         var nearest = noone;
+        var distance = gather_search_distance;
         for (ida = 0; ida &lt;= instance_number(o_b_resource); ida++) {
             var close = instance_find(o_b_resource, ida);
             if (close != noone) {
-               if (close.instance_id == target.instance_id || close.type != target.type) close = noone;
+               if (close == target || close.type != target.type) close = noone;
             }
             if (close != noone) {
                 if (close.amount &gt; 0) {
-                   if (distance_to_object(close) &lt; distance_to_object(nearest)) {
+                   var near_object = distance_to_object(close);
+                   if (near_object &lt; distance) {
+                      distance = near_object;
                       nearest = close;
                    }
                 }
@@ -132,6 +136,31 @@ if (state == "gather" &amp;&amp; alarm[1] &lt;= -1) {
     }
     if (next_state != "gather") alarm[1] = -1;
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>event_inherited();
+draw_set_colour(c_green);
+draw_circle(x,y,gather_search_distance,true);
 </string>
           </argument>
         </arguments>

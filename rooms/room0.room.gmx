@@ -105,6 +105,10 @@
     <instance objName="o_tree" x="335" y="243" name="inst_37CAE2C4" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="o_tree" x="296" y="238" name="inst_E897F274" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="o_tree" x="269" y="235" name="inst_5ABCEBA1" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="o_tree" x="32" y="96" name="inst_2D13FEB6" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="o_tree" x="64" y="64" name="inst_6D6CA54C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="o_tree" x="35" y="77" name="inst_5EC4B8F5" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="o_tree" x="44" y="54" name="inst_752CE1ED" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles>
     <tile bgName="tile_summer" x="64" y="160" w="32" h="32" xo="132" yo="627" id="10000002" name="inst_E3C6F9F0" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
