@@ -230,7 +230,8 @@ if (state == "move") {
        waypoint = instance_create(end_x,end_y,o_waypoint);
        var herepoint = instance_create(x, y, o_waypoint);
        waypoint = s_find_nearest_spot(waypoint, herepoint, grid);
-   } else next_state = "default";
+   }
+   if (waypoint == noone) next_state = "default";
        
     if (waypoint != noone &amp;&amp; path != noone) {
         target = instance_position(end_x, end_y, all);
@@ -368,11 +369,11 @@ draw_text(x - sprite_width/2, y - sprite_height, state);
 // DEBUG
 if (path_position != 1 &amp;&amp; path != noone) draw_path(path, x, y, true);
 
-if (target != noone) {
+/*if (target != noone) {
    with (target) {
         is_selected = true;
    }
-}
+}*/
 </string>
           </argument>
         </arguments>

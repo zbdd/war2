@@ -110,6 +110,8 @@ if (state == "gather" &amp;&amp; alarm[1] &lt;= -1) {
     if (! instance_exists(target)) {
        target = noone;
        next_state = "gather_next";
+    } else {
+      index = target.object_index;
     }
     
     image_xscale = 1; 
@@ -120,11 +122,15 @@ if (state == "gather" &amp;&amp; alarm[1] &lt;= -1) {
             image_xscale = -1;    
         }
         else if (direction &gt;= 226 &amp;&amp; direction &lt;= 304) sprite_index = sprite_gather_south;
+        
        image_speed = gather_image_speed;
        alarm[1] = gather_time;
 
     
-    if (next_state != "gather") alarm[1] = -1;
+    if (next_state != "gather") {
+       alarm[1] = -1;
+       image_speed = 0;
+    }
 }
 </string>
           </argument>
@@ -148,18 +154,15 @@ if (state == "gather" &amp;&amp; alarm[1] &lt;= -1) {
             <kind>1</kind>
             <string>/// STATE: GATHER_NEXT
 if (state == "gather_next") {
-   if (target != noone) {
-        next_target = instance_nearest(x,y, index);
-        if (distance_to_object(next_target) &gt; gather_search_distance) next_target = noone;
+    next_target = instance_nearest(x,y, index);
+    if (distance_to_object(next_target) &gt; gather_search_distance) next_target = noone;
+
+   if (next_target != noone) {
+      show_debug_message("[" + string(id) + "] Targetting new resource [" + string(next_target.id) + "]");
+       next_state = "move";
+       target = next_target;
     }
-    if (target != noone) {
-       if (next_target != noone) {
-          show_debug_message("[" + string(id) + "] Targetting new resource + [" + string(next_target.id) + "]");
-           next_state = "move";
-           target = next_target;
-        }
-        else next_state = "look";
-    }
+    else next_state = "look";
 }
 </string>
           </argument>
@@ -184,8 +187,8 @@ if (state == "gather_next") {
           <argument>
             <kind>1</kind>
             <string>event_inherited();
-draw_set_colour(c_green);
-draw_circle(x,y,gather_search_distance,true);
+//draw_set_colour(c_green);
+//draw_circle(x,y,gather_search_distance,true);
 </string>
           </argument>
         </arguments>
