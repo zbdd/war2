@@ -59,6 +59,7 @@
         <objects name="Gather">
           <object>objects\o_tree</object>
         </objects>
+        <object>objects\o_b_depleted</object>
       </objects>
       <object>objects\o_farm</object>
       <object>objects\o_goldmine</object>

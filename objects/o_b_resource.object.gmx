@@ -28,7 +28,8 @@
             <string>event_inherited();
 amount = 1;
 type = "default";
-
+sprite_depleted = spr_stumps;
+register_lock = true;
 </string>
           </argument>
         </arguments>

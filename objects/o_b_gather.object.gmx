@@ -35,6 +35,8 @@ gather_time = room_speed * 2;
 gather_image_speed = 0.3;
 gather_amount = 10;
 gather_search_distance = 100;
+index = noone;
+next_target = noone;
 </string>
           </argument>
         </arguments>
@@ -58,15 +60,27 @@ gather_search_distance = 100;
           <argument>
             <kind>1</kind>
             <string>/// GATHERED RESOURCE
-if (target != noone &amp;&amp; object_is_ancestor(target.object_index, o_b_resource)) {
-    with (target) {
-         if (amount &gt; 0) {
-            amount -= other.gather_amount;
-            other.amount += other.gather_amount; 
-         } else { other.target = noone; }
+if (target != noone) {
+   if (instance_exists(target)) {
+      show_debug_message("[" + string(id) + "] Mining [" + string(target.id) + "]");
+       if (object_is_ancestor(target.object_index, o_b_resource)) {
+             if (target.amount &gt; 0) {
+                target.amount -= gather_amount;
+                amount += gather_amount; 
+             } else { 
+               var dep = instance_create(target.x, target.y, o_b_depleted);
+               dep.sprite_depleted = target.sprite_depleted;
+               with (dep) { sprite_index = sprite_depleted; };
+               
+               index = target.object_index;
+               
+               with (target) { instance_destroy(); };
+               
+               next_state = "gather_next"; 
+             } 
+         }
     }
 }
-show_debug_message("GATHERED");
 </string>
           </argument>
         </arguments>
@@ -93,7 +107,12 @@ show_debug_message("GATHERED");
 event_inherited();
 
 if (state == "gather" &amp;&amp; alarm[1] &lt;= -1) {
-    //if (distance_to_object(target) &lt;= sprite_width/2) {
+    if (! instance_exists(target)) {
+       target = noone;
+       next_state = "gather_next";
+    }
+    
+    image_xscale = 1; 
        if (direction &gt;= 305 || direction &lt;= 45) sprite_index = sprite_gather_east;
         else if (direction &gt;= 46 &amp;&amp; direction &lt;= 135) sprite_index = sprite_gather_north;
         else if (direction &gt;= 136 &amp;&amp; direction &lt;= 225) {
@@ -103,38 +122,44 @@ if (state == "gather" &amp;&amp; alarm[1] &lt;= -1) {
         else if (direction &gt;= 226 &amp;&amp; direction &lt;= 304) sprite_index = sprite_gather_south;
        image_speed = gather_image_speed;
        alarm[1] = gather_time;
-    //}
-      
-    if (target != noone &amp;&amp; object_is_ancestor(target.object_index, o_b_resource)) {
-        var nearest = noone;
-        var distance = gather_search_distance;
-        for (ida = 0; ida &lt;= instance_number(o_b_resource); ida++) {
-            var close = instance_find(o_b_resource, ida);
-            if (close != noone) {
-               if (close == target || close.type != target.type) close = noone;
-            }
-            if (close != noone) {
-                if (close.amount &gt; 0) {
-                   var near_object = distance_to_object(close);
-                   if (near_object &lt; distance) {
-                      distance = near_object;
-                      nearest = close;
-                   }
-                }
-            }
-        }
-        if (target.amount &lt;= 0) {
-           if (nearest != noone) {
-              next_state = "move";
-              target = nearest;
-           }
-           else target = noone;
-        }
-    } else { target = noone; }
-    if (target == noone) {
-       next_state = "look";
-    }
+
+    
     if (next_state != "gather") alarm[1] = -1;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// STATE: GATHER_NEXT
+if (state == "gather_next") {
+   if (target != noone) {
+        next_target = instance_nearest(x,y, index);
+        if (distance_to_object(next_target) &gt; gather_search_distance) next_target = noone;
+    }
+    if (target != noone) {
+       if (next_target != noone) {
+          show_debug_message("[" + string(id) + "] Targetting new resource + [" + string(next_target.id) + "]");
+           next_state = "move";
+           target = next_target;
+        }
+        else next_state = "look";
+    }
 }
 </string>
           </argument>

@@ -82,7 +82,7 @@ is_selected = false;
             <string>draw_self();
 if (is_selected) {
    image_blend = c_red;
-} else image_blend = c_white;
+} //else image_blend = c_white;
 
 </string>
           </argument>
