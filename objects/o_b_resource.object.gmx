@@ -26,8 +26,9 @@
           <argument>
             <kind>1</kind>
             <string>event_inherited();
-amount_left = 1;
-type = "wood";
+amount = 1;
+type = "default";
+
 </string>
           </argument>
         </arguments>

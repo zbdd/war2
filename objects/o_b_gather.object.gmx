@@ -25,13 +25,14 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>event_inherited();
+            <string>/// SETUP
+event_inherited();
 previous_sprite = spr_p_e;
 sprite_gather_north = spr_p_g_n;
 sprite_gather_south = spr_p_g_s;
 sprite_gather_east = spr_p_g_e;
 gather_time = room_speed * 2;
-gather_image_speed = 0.4;
+gather_image_speed = 0.3;
 gather_amount = 10;
 </string>
           </argument>
@@ -56,7 +57,15 @@ gather_amount = 10;
           <argument>
             <kind>1</kind>
             <string>/// GATHERED RESOURCE
-amount += gather_amount;
+if (target != noone &amp;&amp; object_is_ancestor(target.object_index, o_b_resource)) {
+    with (target) {
+         if (amount &gt; 0) {
+            amount -= other.gather_amount;
+            other.amount += other.gather_amount; 
+         } else { other.target = noone; }
+    }
+}
+show_debug_message("GATHERED");
 </string>
           </argument>
         </arguments>
@@ -79,24 +88,49 @@ amount += gather_amount;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// TO GATHER
+            <string>/// STATE: GATHER
 event_inherited();
 
-if (state == "gather") {
-   if (waypoint != noone) {
-      for (ida = 0; ida &lt;= instance_number(o_b_resource); ida++) {
-          close = instance_find(o_b_resource, ida);
-          if (distance_to_object(close) &lt; distance_to_object(waypoint)) waypoint = close;
-      }
-
-        //show_debug_message(string(distance_to_object(go_to)));
-        if (distance_to_object(go_to) &lt;= 16) {
-           previous_sprite = sprite_index;
-           sprite_index = spr_p_g_e;
-           image_speed = gather_image_speed;
-           alarm[1] = gather_time;
+if (state == "gather" &amp;&amp; alarm[1] &lt;= -1) {
+    //if (distance_to_object(target) &lt;= sprite_width/2) {
+       if (direction &gt;= 305 || direction &lt;= 45) sprite_index = sprite_gather_east;
+        else if (direction &gt;= 46 &amp;&amp; direction &lt;= 135) sprite_index = sprite_gather_north;
+        else if (direction &gt;= 136 &amp;&amp; direction &lt;= 225) {
+            sprite_index = sprite_gather_east;
+            image_xscale = -1;    
         }
-   }
+        else if (direction &gt;= 226 &amp;&amp; direction &lt;= 304) sprite_index = sprite_gather_south;
+       image_speed = gather_image_speed;
+       alarm[1] = gather_time;
+    //}
+      
+    if (target != noone &amp;&amp; object_is_ancestor(target.object_index, o_b_resource)) {
+        var nearest = noone;
+        for (ida = 0; ida &lt;= instance_number(o_b_resource); ida++) {
+            var close = instance_find(o_b_resource, ida);
+            if (close != noone) {
+               if (close.instance_id == target.instance_id || close.type != target.type) close = noone;
+            }
+            if (close != noone) {
+                if (close.amount &gt; 0) {
+                   if (distance_to_object(close) &lt; distance_to_object(nearest)) {
+                      nearest = close;
+                   }
+                }
+            }
+        }
+        if (target.amount &lt;= 0) {
+           if (nearest != noone) {
+              next_state = "move";
+              target = nearest;
+           }
+           else target = noone;
+        }
+    } else { target = noone; }
+    if (target == noone) {
+       next_state = "look";
+    }
+    if (next_state != "gather") alarm[1] = -1;
 }
 </string>
           </argument>

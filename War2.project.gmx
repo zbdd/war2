@@ -28,6 +28,7 @@
     </sprites>
     <sprites name="Gather">
       <sprite>sprites\spr_tree</sprite>
+      <sprite>sprites\spr_stumps</sprite>
     </sprites>
   </sprites>
   <backgrounds name="background">

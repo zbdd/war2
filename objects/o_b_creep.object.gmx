@@ -34,12 +34,12 @@ can_select = true;
 is_selected = false;
 is_leader = false;
 waypoint = noone;
-go_to = noone;
+target = noone;
 squad_id = 0;
 end_x = 0;
 end_y = 0;
 grid = noone;
-path = path_add();
+path = noone;
 select = false;
 run_once = noone;
 move_speed = 3;
@@ -112,7 +112,10 @@ if (run_once = "select") {
             <string>/// STATE: END
 last_state = state;
 if (next_state == state) state_count++
-else state_count = 0;
+else {
+     state_count = 0;
+     show_debug_message("State change to: " + string(next_state));
+}
 state = next_state;
 run_once = noone;
 
@@ -122,6 +125,33 @@ run_once = noone;
       </action>
     </event>
     <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// DEFENSE MODIFIERS
+var inst = instance_position(x, y, o_cover);
+if (inst != noone) {
+   defense = base_defense + inst.defense;
+} else {
+  defense = base_defense;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -151,6 +181,7 @@ if (mouse_check_button_released(mb_left)) {
 // MOVE TO VIA PATH
 if (is_selected &amp;&amp; mouse_check_button_pressed(mb_right)) {
    next_state = "move"; 
+   target = instance_create(mouse_x, mouse_y, o_waypoint);
    waypoint = noone;
 }
 
@@ -176,30 +207,34 @@ if (is_selected &amp;&amp; mouse_check_button_pressed(mb_right)) {
             <kind>1</kind>
             <string>/// STATE: MOVE
 if (state == "move") {
-   if (waypoint == noone) {
+   if (waypoint == noone &amp;&amp; path == noone) {
        image_xscale = 1;
         path = path_add();
         path_pos = 1;
         
-       end_x = mouse_x;
-       end_y = mouse_y;
+        if (target != noone) {
+           end_x = target.x;
+           end_y = target.y;
+        }
     
        grid = s_create_grid();
        
        waypoint = instance_create(end_x,end_y,o_waypoint);
        var herepoint = instance_create(x, y, o_waypoint);
        waypoint = s_find_nearest_spot(waypoint, herepoint, grid);
+    }
        
-       if (waypoint != noone) {
-          mp_grid_path(grid, path, x, y, waypoint.x, waypoint.y, true);
-          path_start(path, move_speed, path_action_stop, false);
-          mp_grid_destroy(grid);
-        }
-        else next_state = "default";
+    if (waypoint != noone &amp;&amp; path != noone) {
+        target = instance_position(end_x, end_y, all);
+        mp_grid_path(grid, path, x, y, waypoint.x, waypoint.y, true);
+        path_start(path, move_speed, path_action_stop, false);
+        mp_grid_destroy(grid);
+        path = noone;
+    }
     
         image_speed = 0.3;
         next_state = "move";
-    }
+ 
     if (path_position == 1 &amp;&amp; waypoint != noone) {
        image_speed = 0;
        image_index = 0;
@@ -207,8 +242,8 @@ if (state == "move") {
        if (inst != noone) next_state = "gather";
        else next_state = "default";
        waypoint = noone;
+       path = noone;
     }
-    
     if (direction &gt;= 305 || direction &lt;= 45) sprite_index = sprite_east;
     else if (direction &gt;= 46 &amp;&amp; direction &lt;= 135) sprite_index = sprite_north;
     else if (direction &gt;= 136 &amp;&amp; direction &lt;= 225) {
@@ -217,7 +252,6 @@ if (state == "move") {
     }
     else if (direction &gt;= 226 &amp;&amp; direction &lt;= 304) sprite_index = sprite_south;
 }
-
 </string>
           </argument>
         </arguments>
@@ -238,12 +272,21 @@ if (state == "move") {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// DEFENSE MODIFIERS
-var inst = instance_position(x, y, o_cover);
-if (inst != noone) {
-   defense = base_defense + inst.defense;
-} else {
-  defense = base_defense;
+            <string>/// STATE: LOOK
+if (state == "look") { 
+   if (target != noone) {
+      direction = point_direction(x, y, target.x, target.y);
+   }
+    if (direction &gt;= 305 || direction &lt;= 45) sprite_index = sprite_east;
+    else if (direction &gt;= 46 &amp;&amp; direction &lt;= 135) sprite_index = sprite_north;
+    else if (direction &gt;= 136 &amp;&amp; direction &lt;= 225) {
+        sprite_index = sprite_east;
+        image_xscale = -1;    
+    }
+    else if (direction &gt;= 226 &amp;&amp; direction &lt;= 304) sprite_index = sprite_south;  
+    
+    image_speed = 0;
+    next_state = "default";
 }
 </string>
           </argument>
@@ -276,14 +319,20 @@ if (defense &gt; 0) {
    draw_set_colour(c_green);
    draw_rectangle(x+5, y-sprite_height/2-5, x-5, y-sprite_height/2-10, false);
 }
-if (is_leader) {
-   image_blend = c_red;
-}
+//if (is_leader) {
+//   image_blend = c_red;
+//}
 draw_set_colour(c_red);
 draw_text(x - sprite_width/2, y - sprite_height, state);
 
 // DEBUG
-if (path_position != 1) draw_path(path, x, y, true);
+if (path_position != 1 &amp;&amp; path != noone) draw_path(path, x, y, true);
+
+if (target != noone) {
+   with (target) {
+        is_selected = true;
+   }
+}
 </string>
           </argument>
         </arguments>

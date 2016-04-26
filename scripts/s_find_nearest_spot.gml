@@ -3,8 +3,8 @@ mover = argument1
 grid = argument2;
 var path = path_add();
 var attempt = 0;
-var radius = 10
-var force_break = 6;
+var radius = 4
+var force_break = 16;
 
 do {
     tmp_waypoint = ds_list_create()
@@ -13,12 +13,7 @@ do {
     var s_height = 0;
     var wd = 0;
     var ht = 0;
-    
-    if (inst != noone) {
-       go_to = inst;
-       wd = inst.sprite_width/2;
-       ht = inst.sprite_height/2;
-    }
+ 
 
     for(ida = 0; ida < 361; ida+=10) {
         cx = go_to.x + (attempt * 16) * cos(ida * pi / 180);
