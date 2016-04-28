@@ -17,6 +17,7 @@
         <sprite>sprites\spr_p_g_n</sprite>
         <sprite>sprites\spr_p_g_e</sprite>
         <sprite>sprites\spr_p_g_s</sprite>
+        <sprite>sprites\spr_p_r_e</sprite>
       </sprites>
       <sprites name="Orc">
         <sprite>sprites\spr_orc</sprite>
@@ -54,15 +55,17 @@
     </objects>
     <objects name="Buildings">
       <objects name="Base">
+        <object>objects\o_b_dropoff</object>
         <object>objects\o_b_building</object>
         <object>objects\o_b_resource</object>
         <objects name="Gather">
           <object>objects\o_tree</object>
         </objects>
         <object>objects\o_b_depleted</object>
+        <object>objects\object14</object>
       </objects>
       <object>objects\o_farm</object>
-      <object>objects\o_goldmine</object>
+      <object>objects\o_keep</object>
     </objects>
   </objects>
   <rooms name="rooms">

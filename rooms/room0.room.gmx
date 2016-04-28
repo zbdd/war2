@@ -82,7 +82,7 @@
     <instance objName="o_cover" x="224" y="256" name="inst_B8FAC017" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="o_cover" x="256" y="256" name="inst_E25C453D" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="o_farm" x="256" y="160" name="inst_09AB3C44" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="o_goldmine" x="96" y="256" name="inst_4F15AD95" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="o_keep" x="96" y="256" name="inst_4F15AD95" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="o_tree" x="288" y="256" name="inst_BC69AE4E" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="o_tree" x="320" y="224" name="inst_28E3FC8C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="o_tree" x="352" y="160" name="inst_E5C6164A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>

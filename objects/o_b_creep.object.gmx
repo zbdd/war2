@@ -25,7 +25,8 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>image_speed = 0;
+            <string>/// SETUP
+image_speed = 0;
 health = 1;
 base_defense = 0;
 defense = base_defense;
@@ -43,6 +44,7 @@ nearest = noone;
 path = noone;
 select = false;
 run_once = noone;
+return_to = noone;
 move_speed = 3;
 action = "default"
 amount = 0;
@@ -110,15 +112,15 @@ if (run_once = "select") {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// STATE: END
-last_state = state;
+            <string>/// FINAL STEP - RUN ALWAYS
 if (next_state == state) state_count++
 else {
      state_count = 0;
+     last_state = state;
      show_debug_message("[" + string(id) + "] State change to: " + string(next_state));
+     state = next_state;
      image_speed = 0;
 }
-state = next_state;
 run_once = noone;
 
 </string>
@@ -170,7 +172,7 @@ if (inst != noone) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// STATE: DEFAULT
+            <string>/// RUN ALWAYS
 depth = y * -1;
 
 // SELECT IF WITHIN SELECTION BOX
@@ -185,8 +187,33 @@ if (is_selected &amp;&amp; mouse_check_button_pressed(mb_right)) {
    next_state = "move"; 
    target = instance_create(mouse_x, mouse_y, o_waypoint);
    waypoint = noone;
+   return_to = noone;
 }
 
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// STATE: DEFAULT
+if (state == "default") {
+   image_speed = 0;
+}
 </string>
           </argument>
         </arguments>
@@ -263,34 +290,42 @@ if (state == "move") {
             <kind>1</kind>
             <string>/// STATE: MOVING
 if (state == "moving") {
-   image_xscale = 1;
-   
-   if (direction &gt;= 305 || direction &lt;= 45) sprite_index = sprite_east;
-    else if (direction &gt;= 46 &amp;&amp; direction &lt;= 135) sprite_index = sprite_north;
-    else if (direction &gt;= 136 &amp;&amp; direction &lt;= 225) {
-        sprite_index = sprite_east;
-        image_xscale = -1;    
-    }
-    else if (direction &gt;= 226 &amp;&amp; direction &lt;= 304) sprite_index = sprite_south;
-    
+    if (amount &lt;= 0) {
+        image_xscale = 1;
+         if (direction &gt;= 305 || direction &lt;= 45) sprite_index = sprite_east;
+         else if (direction &gt;= 46 &amp;&amp; direction &lt;= 135) sprite_index = sprite_north;
+         else if (direction &gt;= 136 &amp;&amp; direction &lt;= 225) {
+              sprite_index = sprite_east;
+              image_xscale = -1;    
+         }
+         else if (direction &gt;= 226 &amp;&amp; direction &lt;= 304) sprite_index = sprite_south;
+     }
    if (path_position == 1 &amp;&amp; waypoint != noone) {
        image_speed = 0;
        image_index = 0;
        
        path_delete(path);
         path = noone;
+       
+        // Default 
+        next_state = "default";
 
        if (target != noone) {
           if (object_is_ancestor(target.object_index, o_b_resource)) next_state = "gather";
-          else next_state = "default";
+          
+          if (object_is_ancestor(target.object_index, o_b_dropoff)) {
+             if (return_to != noone) {
+                target = return_to;
+                next_state = "move";
+             }
+          }
+          
        }
        else next_state = "default";
-       
+
        with (waypoint) { instance_destroy(); }
        waypoint = noone;
- 
-    }
-    
+    } 
     image_speed = 0.3;
 }
 </string>

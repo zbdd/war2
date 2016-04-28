@@ -5,7 +5,7 @@
   <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
-  <parentName>o_b_resource</parentName>
+  <parentName>o_b_dropoff</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -26,7 +26,6 @@
           <argument>
             <kind>1</kind>
             <string>event_inherited();
-amount_left = 1000;
 </string>
           </argument>
         </arguments>
