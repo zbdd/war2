@@ -39,6 +39,10 @@ target = noone;
 squad_id = 0;
 end_x = 0;
 end_y = 0;
+moving_x = 0;
+moving_y = 0;
+stuck_count = 0;
+stuck_max = 5;
 grid = noone;
 nearest = noone;
 path = noone;
@@ -188,6 +192,7 @@ if (is_selected &amp;&amp; mouse_check_button_pressed(mb_right)) {
    target = instance_create(mouse_x, mouse_y, o_waypoint);
    waypoint = noone;
    return_to = noone;
+   index = target.object_index;
 }
 
 </string>
@@ -247,7 +252,7 @@ if (state == "move") {
       waypoint = noone;
    }
  
-    if (target != noone) {
+    if (target != noone &amp;&amp; instance_exists(target)) {
        end_x = target.x;
        end_y = target.y;
     
@@ -261,7 +266,11 @@ if (state == "move") {
    if (waypoint == noone) next_state = "default";
        
     if (waypoint != noone &amp;&amp; path != noone) {
-        target = instance_position(end_x, end_y, all);
+       // clean up waypoints
+       if (target.object_index == o_waypoint) with (target) { instance_destroy(); };
+       
+        target = instance_position(end_x, end_y, o_b_creep);
+        if (target == noone) target = instance_position(end_x, end_y, o_b_building);
         mp_grid_path(grid, path, x, y, waypoint.x, waypoint.y, true);
         path_start(path, move_speed, path_action_stop, false);
         mp_grid_destroy(grid);
@@ -310,17 +319,23 @@ if (state == "moving") {
         // Default 
         next_state = "default";
 
-       if (target != noone) {
+       if (target != noone &amp;&amp; instance_exists(target)) {
           if (object_is_ancestor(target.object_index, o_b_resource)) next_state = "gather";
           
           if (object_is_ancestor(target.object_index, o_b_dropoff)) {
+             target.amount += amount;
+             target.gold += gold;
+             target.wood += wood;
+             amount = 0;
+             gold = 0;
+             wood = 0;
              if (return_to != noone) {
                 target = return_to;
                 next_state = "move";
              }
           }
-          
        }
+       else if (return_to != noone) next_state = "gather_next";
        else next_state = "default";
 
        with (waypoint) { instance_destroy(); }
@@ -399,7 +414,7 @@ if (defense &gt; 0) {
 //   image_blend = c_red;
 //}
 draw_set_colour(c_red);
-draw_text(x - sprite_width/2, y - sprite_height, state);
+draw_text(x - sprite_width, y - sprite_height, string(id) + " : " + string(state));
 
 // DEBUG
 if (path_position != 1 &amp;&amp; path != noone) draw_path(path, x, y, true);

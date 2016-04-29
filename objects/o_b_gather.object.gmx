@@ -66,7 +66,7 @@ wood = 0;
             <string>/// GATHERED RESOURCE
 if (target != noone) {
    if (instance_exists(target)) {
-      show_debug_message("[" + string(id) + "] Mining [" + string(target.id) + "]");
+      show_debug_message("[" + string(id) + "] Mined : " + string(target.type) + " from [" + string(target.id) + "] Amount Left: " + string(target.amount));
        if (object_is_ancestor(target.object_index, o_b_resource)) {
              if (target.amount &gt; 0) {
                 switch (target.type) {
@@ -134,25 +134,29 @@ if (state == "gather") {
    image_speed = gather_image_speed;
 }
 if (state == "gather" &amp;&amp; alarm[1] &lt;= -1) {
-   if (target != noone &amp;&amp; instance_exists(target)) return_to = instance_create(target.x, target.y, o_waypoint);
-
-   if (amount &lt; gather_amount_max) {
-        if (! instance_exists(target)) {
-           target = noone;
-           next_state = "gather_next";
-        } else {
-          index = target.object_index;
-        }
-       alarm[1] = gather_time;
-    
+   if (target != noone &amp;&amp; instance_exists(target)) {
+      if (instance_exists(return_to)) with (return_to) { instance_destroy(); };
+       return_to = instance_create(target.x, target.y, o_waypoint);
+       
+       if (amount &lt; gather_amount_max) {
+            if (! instance_exists(target)) {
+               target = noone;
+               next_state = "gather_next";
+            } else {
+              index = target.object_index;
+            }
+           alarm[1] = gather_time;
         
-        if (next_state != "gather") {
-           alarm[1] = -1;
-           image_speed = 0;
+            
+            if (next_state != "gather") {
+               alarm[1] = -1;
+               image_speed = 0;
+            }
+        } else {
+          next_state = "gather_return";
         }
-    } else {
-      next_state = "gather_return";
-    }
+   }
+   else next_state = "gather_next";
 }
 </string>
           </argument>
@@ -184,7 +188,8 @@ if (state == "gather_next") {
        next_state = "move";
        target = next_target;
     }
-    else next_state = "look";
+    else if (return_to != noone) next_state = "gather_return";
+    else next_state = "default";
 }
 </string>
           </argument>
@@ -238,7 +243,7 @@ if (state == "gather_return") {
           <argument>
             <kind>1</kind>
             <string>/// GATHER OVERRIDES
-if (amount &gt; 0) {
+if (amount &gt; 0 &amp;&amp; state == "moving") {
     image_xscale = 1; 
     if (direction &gt;= 305 || direction &lt;= 45) sprite_index = sprite_return_east;
     else if (direction &gt;= 46 &amp;&amp; direction &lt;= 135) sprite_index = sprite_return_east;
