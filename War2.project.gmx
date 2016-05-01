@@ -30,6 +30,8 @@
     <sprites name="Gather">
       <sprite>sprites\spr_tree</sprite>
       <sprite>sprites\spr_stumps</sprite>
+      <sprite>sprites\spr_goldmine</sprite>
+      <sprite>sprites\spr_depleted_goldmine</sprite>
     </sprites>
   </sprites>
   <backgrounds name="background">
@@ -40,6 +42,7 @@
     <script>scripts\s_create_squad.gml</script>
     <script>scripts\s_find_nearest_spot.gml</script>
     <script>scripts\s_create_grid.gml</script>
+    <script>scripts\s_instance_nearest_notme.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\o_cover</object>
@@ -58,11 +61,11 @@
         <object>objects\o_b_dropoff</object>
         <object>objects\o_b_building</object>
         <object>objects\o_b_resource</object>
+        <object>objects\o_b_depleted</object>
         <objects name="Gather">
           <object>objects\o_tree</object>
+          <object>objects\o_goldmine</object>
         </objects>
-        <object>objects\o_b_depleted</object>
-        <object>objects\object14</object>
       </objects>
       <object>objects\o_farm</object>
       <object>objects\o_keep</object>

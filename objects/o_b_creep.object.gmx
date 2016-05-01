@@ -42,6 +42,7 @@ end_y = 0;
 moving_x = 0;
 moving_y = 0;
 stuck_count = 0;
+next_target = noone;
 stuck_max = 5;
 grid = noone;
 nearest = noone;
@@ -188,11 +189,8 @@ if (mouse_check_button_released(mb_left)) {
 }
 // MOVE TO VIA PATH
 if (is_selected &amp;&amp; mouse_check_button_pressed(mb_right)) {
-   next_state = "move"; 
-   target = instance_create(mouse_x, mouse_y, o_waypoint);
-   waypoint = noone;
-   return_to = noone;
-   index = target.object_index;
+   next_state = "force_move"; 
+   next_target = instance_create(mouse_x, mouse_y, o_waypoint);
 }
 
 </string>
@@ -251,11 +249,14 @@ if (state == "move") {
       with (waypoint) { instance_destroy(); }
       waypoint = noone;
    }
+   if (grid != noone) {
+      mp_grid_destroy(grid);
+   }
  
     if (target != noone &amp;&amp; instance_exists(target)) {
        end_x = target.x;
        end_y = target.y;
-    
+        
        grid = s_create_grid();
        path = path_add();
        
@@ -269,11 +270,12 @@ if (state == "move") {
        // clean up waypoints
        if (target.object_index == o_waypoint) with (target) { instance_destroy(); };
        
-        target = instance_position(end_x, end_y, o_b_creep);
-        if (target == noone) target = instance_position(end_x, end_y, o_b_building);
+       if (last_state == "force_move") {
+            target = instance_position(end_x, end_y, o_b_creep);
+            if (target == noone) target = instance_position(end_x, end_y, o_b_building);
+       }
         mp_grid_path(grid, path, x, y, waypoint.x, waypoint.y, true);
         path_start(path, move_speed, path_action_stop, false);
-        mp_grid_destroy(grid);
         next_state = "moving";
     }
 }
@@ -321,8 +323,7 @@ if (state == "moving") {
 
        if (target != noone &amp;&amp; instance_exists(target)) {
           if (object_is_ancestor(target.object_index, o_b_resource)) next_state = "gather";
-          
-          if (object_is_ancestor(target.object_index, o_b_dropoff)) {
+          else if (object_is_ancestor(target.object_index, o_b_dropoff)) {
              target.amount += amount;
              target.gold += gold;
              target.wood += wood;
@@ -331,11 +332,10 @@ if (state == "moving") {
              wood = 0;
              if (return_to != noone) {
                 target = instance_create(return_to.x, return_to.y, o_waypoint);
-                with (return_to) { instance_destroy(); }
-                return_to = noone;
                 next_state = "move";
              }
           }
+          else if (return_to != noone) next_state = "gather_next";
        }
        else if (return_to != noone) next_state = "gather_next";
        else next_state = "default";
@@ -344,6 +344,34 @@ if (state == "moving") {
        waypoint = noone;
     } 
     image_speed = 0.3;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// STATE: FORCE_MOVE
+if (state == "force_move") {
+   target = next_target;
+   waypoint = noone;
+   return_to = noone;
+   index = target.object_index;
+   next_state = "move";
 }
 </string>
           </argument>

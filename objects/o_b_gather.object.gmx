@@ -65,9 +65,9 @@ wood = 0;
             <kind>1</kind>
             <string>/// GATHERED RESOURCE
 if (target != noone) {
-   if (instance_exists(target)) {
-      show_debug_message("[" + string(id) + "] Mined : " + string(target.type) + " from [" + string(target.id) + "] Amount Left: " + string(target.amount));
+   if (instance_exists(target)) { 
        if (object_is_ancestor(target.object_index, o_b_resource)) {
+          show_debug_message("[" + string(id) + "] Mined : " + string(target.type) + " from [" + string(target.id) + "] Amount Left: " + string(target.amount));
              if (target.amount &gt; 0) {
                 switch (target.type) {
                        case "wood":
@@ -82,17 +82,7 @@ if (target != noone) {
                         gold += gather_amount;
                         break;
                 }
-             } else { 
-               var dep = instance_create(target.x, target.y, o_b_depleted);
-               dep.sprite_depleted = target.sprite_depleted;
-               with (dep) { sprite_index = sprite_depleted; };
-               
-               index = target.object_index;
-               
-               with (target) { instance_destroy(); };
-               
-               next_state = "gather_next"; 
-             } 
+             }
          }
     }
 }
@@ -121,6 +111,27 @@ if (target != noone) {
             <string>/// STATE: GATHER
 event_inherited();
 
+if (state == "gather" &amp;&amp; alarm[1] &lt;= -1) {
+   if (target != noone &amp;&amp; instance_exists(target)) {
+      if (target.amount &gt; 0) {
+          alarm[1] = gather_time;
+          index = target.object_index;
+      } else next_state = "gather_next";
+            
+      if (instance_exists(return_to)) with (return_to) { instance_destroy(); };
+       return_to = instance_create(target.x, target.y, o_waypoint);
+       
+       if (amount &lt; gather_amount_max) {
+            if (! instance_exists(target)) {
+               target = noone;
+               next_state = "gather_next";
+            }
+        } else {
+          next_state = "gather_return";
+        }
+   }
+   else next_state = "gather_next";
+}
 if (state == "gather") {
    image_xscale = 1; 
    if (direction &gt;= 305 || direction &lt;= 45) sprite_index = sprite_gather_east;
@@ -132,30 +143,11 @@ if (state == "gather") {
     else if (direction &gt;= 226 &amp;&amp; direction &lt;= 304) sprite_index = sprite_gather_south;
     
    image_speed = gather_image_speed;
-}
-if (state == "gather" &amp;&amp; alarm[1] &lt;= -1) {
-   if (target != noone &amp;&amp; instance_exists(target)) {
-      if (instance_exists(return_to)) with (return_to) { instance_destroy(); };
-       return_to = instance_create(target.x, target.y, o_waypoint);
-       
-       if (amount &lt; gather_amount_max) {
-            if (! instance_exists(target)) {
-               target = noone;
-               next_state = "gather_next";
-            } else if (target.amount &gt; 0) {
-              alarm[1] = gather_time;
-              index = target.object_index;
-            }
-                          
-            if (next_state != "gather") {
-               alarm[1] = -1;
-               image_speed = 0;
-            }
-        } else {
-          next_state = "gather_return";
-        }
-   }
-   else next_state = "gather_next";
+   
+   if (next_state != "gather") {
+       alarm[1] = -1;
+       image_speed = 0;
+    }
 }
 </string>
           </argument>
@@ -179,11 +171,12 @@ if (state == "gather" &amp;&amp; alarm[1] &lt;= -1) {
             <kind>1</kind>
             <string>/// STATE: GATHER_NEXT
 if (state == "gather_next") {
-    next_target = instance_nearest(x,y, index);
-    if (distance_to_object(next_target) &gt; gather_search_distance) next_target = noone;
-
-   if (next_target != noone) {
-      show_debug_message("[" + string(id) + "] Targetting new resource [" + string(next_target.id) + "]");
+   if (object_is_ancestor(index, o_b_resource)) {
+      next_target = instance_nearest(x,y, index);
+      if (distance_to_object(next_target) &gt; gather_search_distance) next_target = noone;
+    } else next_target = noone;
+    
+   if (next_target != noone &amp;&amp; instance_exists(next_target)) {
        next_state = "move";
        target = next_target;
     }
