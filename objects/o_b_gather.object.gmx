@@ -142,12 +142,11 @@ if (state == "gather" &amp;&amp; alarm[1] &lt;= -1) {
             if (! instance_exists(target)) {
                target = noone;
                next_state = "gather_next";
-            } else {
+            } else if (target.amount &gt; 0) {
+              alarm[1] = gather_time;
               index = target.object_index;
             }
-           alarm[1] = gather_time;
-        
-            
+                          
             if (next_state != "gather") {
                alarm[1] = -1;
                image_speed = 0;

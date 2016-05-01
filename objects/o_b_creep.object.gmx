@@ -330,7 +330,9 @@ if (state == "moving") {
              gold = 0;
              wood = 0;
              if (return_to != noone) {
-                target = return_to;
+                target = instance_create(return_to.x, return_to.y, o_waypoint);
+                with (return_to) { instance_destroy(); }
+                return_to = noone;
                 next_state = "move";
              }
           }
