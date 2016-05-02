@@ -34,6 +34,7 @@
       <sprite>sprites\spr_goldmine</sprite>
       <sprite>sprites\spr_depleted_goldmine</sprite>
     </sprites>
+    <sprite>sprites\spr_mouse</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\tile_summer</background>
@@ -72,6 +73,7 @@
       <object>objects\o_farm</object>
       <object>objects\o_keep</object>
     </objects>
+    <object>objects\o_mouse</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>
