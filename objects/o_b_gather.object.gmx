@@ -234,6 +234,39 @@ if (state == "gather_return") {
         <arguments>
           <argument>
             <kind>1</kind>
+            <string>/// STATE: DROP_OFF
+if (state == "drop_off") {
+   next_state = "default";
+    player.gold += gold;
+    player.wood += wood;
+    amount = 0;
+    gold = 0;
+    wood = 0;
+    if (return_to != noone) {
+       target = instance_create(return_to.x, return_to.y, o_waypoint);
+       next_state = "move";
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
             <string>/// GATHER OVERRIDES
 if (amount &gt; 0 &amp;&amp; state == "moving") {
     image_xscale = 1; 

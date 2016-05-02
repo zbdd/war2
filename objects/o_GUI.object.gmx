@@ -70,6 +70,10 @@
           <argument>
             <kind>1</kind>
             <string>draw_sprite(spr_GUI, -1, 0,0);
+
+draw_text(20, 0, "Gold: " + string(global.players[0].gold));
+draw_text(160, 0, "Wood: " + string(global.players[0].wood));
+draw_text(300, 0, "Pop: " + string(global.players[0].population));
 </string>
           </argument>
         </arguments>

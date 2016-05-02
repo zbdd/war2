@@ -34,6 +34,7 @@ image_speed = 0;
 depth = y * -1;
 passable = false;
 is_selected = false;
+player = global.players[0];
 </string>
           </argument>
         </arguments>

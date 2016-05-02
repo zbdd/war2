@@ -50,6 +50,7 @@ path = noone;
 select = false;
 run_once = noone;
 return_to = noone;
+player = global.players[0];
 move_speed = 3;
 action = "default"
 amount = 0;
@@ -323,18 +324,7 @@ if (state == "moving") {
 
        if (target != noone &amp;&amp; instance_exists(target)) {
           if (object_is_ancestor(target.object_index, o_b_resource)) next_state = "gather";
-          else if (object_is_ancestor(target.object_index, o_b_dropoff)) {
-             target.amount += amount;
-             target.gold += gold;
-             target.wood += wood;
-             amount = 0;
-             gold = 0;
-             wood = 0;
-             if (return_to != noone) {
-                target = instance_create(return_to.x, return_to.y, o_waypoint);
-                next_state = "move";
-             }
-          }
+          else if (object_is_ancestor(target.object_index, o_b_dropoff)) next_state = "drop_off";
           else if (return_to != noone) next_state = "gather_next";
        }
        else if (return_to != noone) next_state = "gather_next";

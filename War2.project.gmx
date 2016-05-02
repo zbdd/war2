@@ -74,6 +74,7 @@
       <object>objects\o_keep</object>
     </objects>
     <object>objects\o_mouse</object>
+    <object>objects\o_player</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>

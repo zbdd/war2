@@ -2,6 +2,7 @@ base_x = argument0;
 base_y = argument1;
 type = argument2;
 size = argument3;
+player = argument4;
 randomize();
 do {
       squad_id = irandom(100000);
@@ -17,7 +18,7 @@ for (var i = 0; i < size; i++) {
     
     squadie.x = x + irandom(squadie.sprite_width * 3);
     squadie.y = y + irandom(squadie.sprite_height * 3);
-    
+    squadie.player = player;
     
     if (i == 0) {
        squadie.is_leader = true;
