@@ -7,6 +7,7 @@
   <sounds name="sound"/>
   <sprites name="sprites">
     <sprite>sprites\s_c</sprite>
+    <sprite>sprites\spr_GUI</sprite>
     <sprite>sprites\sp_waypoint</sprite>
     <sprites name="Creeps">
       <sprites name="Peasant">
@@ -46,6 +47,7 @@
   </scripts>
   <objects name="objects">
     <object>objects\o_cover</object>
+    <object>objects\o_GUI</object>
     <object>objects\o_game</object>
     <object>objects\o_waypoint</object>
     <objects name="Creep">
