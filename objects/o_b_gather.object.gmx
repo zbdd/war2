@@ -180,7 +180,7 @@ if (state == "gather_next") {
        next_state = "move";
        target = next_target;
     }
-    else if (return_to != noone) next_state = "gather_return";
+    else if (return_to != noone &amp;&amp; amount &gt; 0) next_state = "gather_return";
     else next_state = "default";
 }
 </string>
