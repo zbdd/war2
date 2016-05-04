@@ -31,12 +31,19 @@ health = 1;
 base_defense = 0;
 defense = base_defense;
 attack = 1;
+name = "default";
+types = ds_list_create();
+
+// Selection
 can_select = true;
 is_selected = false;
 is_leader = false;
+squad_id = 0;
+menu = noone;
+
+// Movement
 waypoint = noone;
 target = noone;
-squad_id = 0;
 end_x = 0;
 end_y = 0;
 moving_x = 0;
@@ -50,17 +57,23 @@ path = noone;
 select = false;
 run_once = noone;
 return_to = noone;
-player = global.players[0];
 move_speed = 3;
-action = "default"
+
+// Gathering
 amount = 0;
+
+// Sprite Control
+sprite_east = spr_p_e;
+sprite_north = spr_p_n;
+sprite_south = spr_p_s;
+sprite_portrait = spr_p_portrait;
+
+// Misc
+player = global.players[0];
 state = "default";
 next_state = "default";
 last_state = "default";
 state_count = 0;
-sprite_east = spr_p_e;
-sprite_north = spr_p_n;
-sprite_south = spr_p_s;
 </string>
           </argument>
         </arguments>
@@ -192,6 +205,17 @@ if (mouse_check_button_released(mb_left)) {
 if (is_selected &amp;&amp; mouse_check_button_pressed(mb_right)) {
    next_state = "force_move"; 
    next_target = instance_create(mouse_x, mouse_y, o_waypoint);
+}
+
+// CREATE MENU
+if (is_leader &amp;&amp; is_selected &amp;&amp; menu == noone) {
+   menu = instance_create(x,y,o_menu);
+   menu.selected = id;
+   menu.build_menu = true;
+}
+if (! is_selected &amp;&amp; menu != noone) {
+   with (menu) { instance_destroy(); }
+   menu = noone;
 }
 
 </string>
@@ -404,6 +428,39 @@ if (state == "look") {
         </arguments>
       </action>
     </event>
+    <event eventtype="8" enumb="64">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>// DRAW MENU ITEMS
+if (is_selected &amp;&amp; is_leader) {
+   draw_sprite(sprite_portrait,-1,42,675);  
+   draw_sprite(sprite_index,image_index,378,700);  
+
+   draw_set_colour(c_black);
+   draw_text(166, 670, name);
+   draw_text(166, 685, "Health: " + string(health));
+   draw_text(166, 700, "Attack: " + string(attack));
+   draw_text(166, 715, "Defence: " + string(defense));
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="8" enumb="0">
       <action>
         <libid>1</libid>
@@ -423,8 +480,9 @@ if (state == "look") {
             <kind>1</kind>
             <string>if (is_selected) {
    draw_set_colour(c_red);
-   draw_ellipse(x+7.5, y+sprite_height/2-5, x-7.5, y+sprite_height/2+5, true);
+   draw_ellipse(x+7.5, y+sprite_height/2-5, x-7.5, y+sprite_height/2+5, true); 
 }
+// Draw the sprite
 draw_self();
 if (defense &gt; 0) {
    draw_set_colour(c_green);

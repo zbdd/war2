@@ -19,6 +19,7 @@
         <sprite>sprites\spr_p_g_e</sprite>
         <sprite>sprites\spr_p_g_s</sprite>
         <sprite>sprites\spr_p_r_e</sprite>
+        <sprite>sprites\spr_p_portrait</sprite>
       </sprites>
       <sprites name="Orc">
         <sprite>sprites\spr_orc</sprite>
@@ -35,6 +36,9 @@
       <sprite>sprites\spr_depleted_goldmine</sprite>
     </sprites>
     <sprite>sprites\spr_mouse</sprite>
+    <sprites name="Menu">
+      <sprite>sprites\spr_m_build</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background">
     <background>background\tile_summer</background>
@@ -73,8 +77,12 @@
       <object>objects\o_farm</object>
       <object>objects\o_keep</object>
     </objects>
-    <object>objects\o_mouse</object>
     <object>objects\o_player</object>
+    <objects name="Menu">
+      <object>objects\o_menu</object>
+      <object>objects\o_mouse</object>
+      <object>objects\o_button</object>
+    </objects>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>
