@@ -194,17 +194,22 @@ if (inst != noone) {
             <string>/// RUN ALWAYS
 depth = y * -1;
 
-// SELECT IF WITHIN SELECTION BOX
-if (mouse_check_button_released(mb_left)) {
-   if (point_in_rectangle(x, y, global.start_x, global.start_y, global.end_x, global.end_y)) {
-      run_once = "select";
-   }
-   else is_selected = false;
-}
-// MOVE TO VIA PATH
-if (is_selected &amp;&amp; mouse_check_button_pressed(mb_right)) {
-   next_state = "force_move"; 
-   next_target = instance_create(mouse_x, mouse_y, o_waypoint);
+xx = window_view_mouse_get_x(1);
+yy = window_view_mouse_get_y(1);
+
+if (xx &gt;= 0 &amp;&amp; xx &lt;= view_wview[0] &amp;&amp; yy &gt;= 0 &amp;&amp; yy &lt;= view_hview[0]) {
+    // SELECT IF WITHIN SELECTION BOX
+    if (mouse_check_button_released(mb_left)) {
+       if (point_in_rectangle(x, y, global.start_x, global.start_y, global.end_x, global.end_y)) {
+          run_once = "select";
+       }
+       else is_selected = false;
+    }
+    // MOVE TO VIA PATH
+    if (is_selected &amp;&amp; mouse_check_button_pressed(mb_right)) {
+       next_state = "force_move"; 
+       next_target = instance_create(mouse_x, mouse_y, o_waypoint);
+    }
 }
 
 // CREATE MENU
@@ -326,6 +331,8 @@ if (state == "move") {
             <kind>1</kind>
             <string>/// STATE: MOVING
 if (state == "moving") {
+   image_speed = 0.3;
+   
     if (amount &lt;= 0) {
         image_xscale = 1;
          if (direction &gt;= 305 || direction &lt;= 45) sprite_index = sprite_east;
@@ -341,23 +348,27 @@ if (state == "moving") {
        image_index = 0;
        
        path_delete(path);
-        path = noone;
-       
-        // Default 
-        next_state = "default";
+       path = noone;
 
-       if (target != noone &amp;&amp; instance_exists(target)) {
-          if (object_is_ancestor(target.object_index, o_b_resource)) next_state = "gather";
-          else if (object_is_ancestor(target.object_index, o_b_dropoff)) next_state = "drop_off";
-          else if (return_to != noone) next_state = "gather_next";
-       }
-       else if (return_to != noone) next_state = "gather_next";
-       else next_state = "default";
-
-       with (waypoint) { instance_destroy(); }
-       waypoint = noone;
-    } 
-    image_speed = 0.3;
+      // Handle gather logic.
+      if (ds_list_find_index(types,"gather") != -1) {
+         if (target != noone &amp;&amp; instance_exists(target)) {
+            if (object_is_ancestor(target.object_index, o_b_resource)) next_state = "gather";
+            else if (object_is_ancestor(target.object_index, o_b_dropoff)) next_state = "drop_off";
+            else if (return_to != noone) next_state = "gather_next";
+         } else if (return_to != noone) next_state = "gather_next";
+      }
+        
+      // Handle build and repair logic.
+      if (ds_list_find_index(types,"build") != -1 &amp;&amp; next_state == "moving") {
+               
+      }
+            
+      with (waypoint) { instance_destroy(); }
+      waypoint = noone;
+      
+      if (next_state == "moving") next_state = "default";
+   }
 }
 </string>
           </argument>

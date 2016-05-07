@@ -28,6 +28,7 @@
             <string>/// SETUP
 depth = -10000;
 on_click = "show_build_menu";
+is_sub_button = false;
 </string>
           </argument>
         </arguments>

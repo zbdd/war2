@@ -31,6 +31,7 @@ show_default = true;
 show_build_menu = false;
 buttons = ds_list_create();
 build_menu = false;
+is_sub_menu_loaded = false;
 </string>
           </argument>
         </arguments>
@@ -88,13 +89,32 @@ if (build_menu) {
    // TOP
     if (selected != noone) {
        if (ds_list_find_index(selected.types, "build") != -1) {
-          show_debug_message(selected.name);
           button = instance_create(menu_x, menu_y, o_button);
+          button.on_click = "show_build_menu";
           ds_list_add(buttons, button);
        }
     
     } 
     // BOTTOM
+}
+if (mouse_check_button_pressed(mb_left)) {
+   var inst = instance_position(mouse_x, mouse_y, o_button);
+   if (inst != noone) {
+      switch (inst.on_click) {
+         case "show_build_menu":
+            if (! is_sub_menu_loaded) {
+               is_sub_menu_loaded = true;
+               button = instance_create(menu_x, menu_y + 40, o_build_farm);
+               ds_list_add(buttons, button);   
+            } else {
+               is_sub_menu_loaded = false;
+               for(var i = 0; i &lt; ds_list_size(buttons); i++) {
+                       with (buttons[| i]) { if (is_sub_button) instance_destroy(); }
+               }
+            }
+         break;
+      }
+   }
 }
 </string>
           </argument>

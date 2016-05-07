@@ -29,6 +29,7 @@
 name = "Peasant";
 health = 5;
 ds_list_add(types, "build");
+ds_list_add(types, "gather");
 </string>
           </argument>
         </arguments>
