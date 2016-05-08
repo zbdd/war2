@@ -25,8 +25,11 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>health = 1;
+            <string>/// SETUP
+build_health = 1;
+attack = 0;
 defense = 1;
+name = "default";
 on_fire = 0;
 burn_rate = 1;
 can_select = true;
@@ -36,6 +39,69 @@ max_health = 100;
 passable = false;
 is_selected = false;
 player = global.players[0];
+sprite_portrait = spr_button_build;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (mouse_check_button_released(mb_left) &amp;&amp; can_select) {
+   if (point_in_rectangle(x, y, global.start_x, global.start_y, global.end_x, global.end_y)) {
+      is_selected = true;
+   }
+   else is_selected = false;
+}
+if (build_health &gt; max_health) build_health = max_health;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="64">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>// DRAW MENU ITEMS
+if (is_selected) {
+   draw_sprite(sprite_portrait,-1,42,675);  
+   draw_sprite(sprite_index,image_index,378,700);  
+
+   draw_set_colour(c_black);
+   draw_text(166, 670, name);
+   draw_text(166, 685, "Health: " + string(build_health) + "/" + string(max_health));
+   draw_text(166, 700, "Attack: " + string(attack));
+   draw_text(166, 715, "Defence: " + string(defense));
+}
 </string>
           </argument>
         </arguments>
@@ -58,13 +124,14 @@ player = global.players[0];
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_self();
-if (is_selected) {
-   image_blend = c_red;
-} //else image_blend = c_white;
-if (health &gt;= max_health) {
+            <string>if (build_health &gt;= max_health) {
    image_index = 1;
+} else image_index = 0;
+if (is_selected) {
+   draw_set_colour(c_red);
+   draw_ellipse(x+sprite_width/2, y+sprite_height/2, x-sprite_width/2, y-sprite_height/2, true); 
 }
+draw_self();
 </string>
           </argument>
         </arguments>

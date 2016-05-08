@@ -27,7 +27,8 @@
             <kind>1</kind>
             <string>/// SETUP
 image_speed = 0;
-health = 1;
+creep_health = 1;
+max_health = 1;
 base_defense = 0;
 defense = base_defense;
 attack = 1;
@@ -202,7 +203,7 @@ if (xx &gt;= 0 &amp;&amp; xx &lt;= view_wview[0] &amp;&amp; yy &gt;= 0 &amp;&amp
    // why not have game state in the fucking mouse object.
    if (o_mouse.state != "build") {
         // Select if within selection box.
-        if (mouse_check_button_released(mb_left)) {
+        if (mouse_check_button_released(mb_left) &amp;&amp; can_select) {
            if (point_in_rectangle(x, y, global.start_x, global.start_y, global.end_x, global.end_y)) {
               run_once = "select";
            }
@@ -374,7 +375,7 @@ if (state == "moving") {
       if (ds_list_find_index(types,"build") != -1 &amp;&amp; next_state == "moving") {
           if (target != noone &amp;&amp; instance_exists(target)) {
              if (object_is_ancestor(target.object_index, o_b_building) &amp;&amp;
-                (target.health &lt; target.max_health)) {
+                (target.build_health &lt; target.max_health)) {
                 next_state = "build";
              }    
          }
@@ -479,7 +480,7 @@ if (is_selected &amp;&amp; is_leader) {
 
    draw_set_colour(c_black);
    draw_text(166, 670, name);
-   draw_text(166, 685, "Health: " + string(health));
+   draw_text(166, 685, "Health: " + string(creep_health) + "/" + string(max_health));
    draw_text(166, 700, "Attack: " + string(attack));
    draw_text(166, 715, "Defence: " + string(defense));
 }
@@ -507,7 +508,7 @@ if (is_selected &amp;&amp; is_leader) {
             <kind>1</kind>
             <string>if (is_selected) {
    draw_set_colour(c_red);
-   draw_ellipse(x+7.5, y+sprite_height/2-5, x-7.5, y+sprite_height/2+5, true); 
+   draw_ellipse(x+sprite_width/2, y+sprite_height/2-5, x-sprite_width/2, y+sprite_height/2+5, true); 
 }
 // Draw the sprite
 draw_self();

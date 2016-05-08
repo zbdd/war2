@@ -27,7 +27,7 @@
             <kind>1</kind>
             <string>event_inherited();
 name = "Peasant";
-health = 5;
+creep_health = 5;
 ds_list_add(types, "build");
 ds_list_add(types, "gather");
 </string>

@@ -55,8 +55,8 @@ build_amount = 20;
 if (target != noone) {
    if (instance_exists(target)) { 
        if (object_is_ancestor(target.object_index, o_b_building)) {
-          if (target.health &lt; target.max_health) {
-             target.health += build_amount;
+          if (target.build_health &lt; target.max_health) {
+             target.build_health += build_amount;
              show_debug_message("[" + string(id) + "] Building : " + string(object_get_name(target.object_index)) + " Health: " + string(target.health) + "/" + string(target.max_health));
            }
        }
@@ -129,7 +129,7 @@ if (state == "build") {
     if (target != noone) {
        if (instance_exists(target)) { 
            if (object_is_ancestor(target.object_index, o_b_building)) {
-              if (target.health &gt;= target.max_health) {
+              if (target.build_health &gt;= target.max_health) {
                  next_state = "look";
               }
            }

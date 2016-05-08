@@ -52,7 +52,8 @@ register_lock = true;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (amount &lt;= 0) {
+            <string>event_inherited();
+if (amount &lt;= 0) {
     var dep = instance_create(x, y, o_b_depleted);
     dep.sprite_index = sprite_depleted;
     
