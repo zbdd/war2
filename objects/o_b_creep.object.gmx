@@ -191,28 +191,39 @@ if (inst != noone) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// RUN ALWAYS
+            <string>/// ALWAYS RUN
 depth = y * -1;
 
 xx = window_view_mouse_get_x(1);
 yy = window_view_mouse_get_y(1);
 
 if (xx &gt;= 0 &amp;&amp; xx &lt;= view_wview[0] &amp;&amp; yy &gt;= 0 &amp;&amp; yy &lt;= view_hview[0]) {
-    // SELECT IF WITHIN SELECTION BOX
-    if (mouse_check_button_released(mb_left)) {
-       if (point_in_rectangle(x, y, global.start_x, global.start_y, global.end_x, global.end_y)) {
-          run_once = "select";
-       }
-       else is_selected = false;
+   // Not sure what I'm doing with this yet...
+   // why not have game state in the fucking mouse object.
+   if (o_mouse.state != "build") {
+        // Select if within selection box.
+        if (mouse_check_button_released(mb_left)) {
+           if (point_in_rectangle(x, y, global.start_x, global.start_y, global.end_x, global.end_y)) {
+              run_once = "select";
+           }
+           else is_selected = false;
+        }
+        // Move to via Path.
+        if (is_selected &amp;&amp; mouse_check_button_pressed(mb_right)) {
+           next_state = "force_move"; 
+           next_target = instance_create(mouse_x, mouse_y, o_waypoint);
+        }
     }
-    // MOVE TO VIA PATH
-    if (is_selected &amp;&amp; mouse_check_button_pressed(mb_right)) {
-       next_state = "force_move"; 
-       next_target = instance_create(mouse_x, mouse_y, o_waypoint);
+    if (o_mouse.state == "build") {
+       // Go build that shit.
+       if (is_selected) {
+          next_state = "force_move"; 
+          next_target = instance_create(mouse_x, mouse_y, o_waypoint);    
+       }
     }
 }
 
-// CREATE MENU
+// Create Menu.
 if (is_leader &amp;&amp; is_selected &amp;&amp; menu == noone) {
    menu = instance_create(x,y,o_menu);
    menu.selected = id;
@@ -354,14 +365,19 @@ if (state == "moving") {
       if (ds_list_find_index(types,"gather") != -1) {
          if (target != noone &amp;&amp; instance_exists(target)) {
             if (object_is_ancestor(target.object_index, o_b_resource)) next_state = "gather";
-            else if (object_is_ancestor(target.object_index, o_b_dropoff)) next_state = "drop_off";
+            else if (object_is_ancestor(target.object_index, o_b_dropoff) &amp;&amp; amount &gt; 0) next_state = "drop_off";
             else if (return_to != noone) next_state = "gather_next";
          } else if (return_to != noone) next_state = "gather_next";
       }
         
       // Handle build and repair logic.
       if (ds_list_find_index(types,"build") != -1 &amp;&amp; next_state == "moving") {
-               
+          if (target != noone &amp;&amp; instance_exists(target)) {
+             if (object_is_ancestor(target.object_index, o_b_building) &amp;&amp;
+                (target.health &lt; target.max_health)) {
+                next_state = "build";
+             }    
+         }
       }
             
       with (waypoint) { instance_destroy(); }

@@ -63,6 +63,7 @@
         <object>objects\o_b_creep</object>
         <object>objects\o_b_collied</object>
         <object>objects\o_b_gather</object>
+        <object>objects\o_b_build</object>
       </objects>
       <object>objects\o_p</object>
     </objects>

@@ -32,8 +32,7 @@ burn_rate = 1;
 can_select = true;
 image_speed = 0;
 depth = y * -1;
-build_speed = 10;
-build_time = 10 * build_speed;
+max_health = 100;
 passable = false;
 is_selected = false;
 player = global.players[0];
@@ -63,7 +62,9 @@ player = global.players[0];
 if (is_selected) {
    image_blend = c_red;
 } //else image_blend = c_white;
-
+if (health &gt;= max_health) {
+   image_index = 1;
+}
 </string>
           </argument>
         </arguments>

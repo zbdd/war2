@@ -26,6 +26,9 @@
           <argument>
             <kind>1</kind>
             <string>/// SETUP
+state = "default";
+xx = 0;
+yy = 0;
 </string>
           </argument>
         </arguments>
@@ -50,7 +53,6 @@
             <kind>1</kind>
             <string>x = mouse_x;
 y = mouse_y;
-//show_debug_message("X: " + string(x) + " AND Y: " + string(y));
 </string>
           </argument>
         </arguments>
