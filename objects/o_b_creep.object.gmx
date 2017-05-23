@@ -276,7 +276,9 @@ if (xx &gt;= 0 &amp;&amp; xx &lt;= view_wview[0] &amp;&amp; yy &gt;= 0 &amp;&amp
              }
            } else {
               next_state = "force_move"; 
-              next_target = instance_create(mouse_x, mouse_y, o_waypoint);
+              next_target = instance_position(mouse_x, mouse_y, o_b_building);
+              if (next_target == noone) next_target = instance_position(mouse_x, mouse_y, o_b_creep);
+              if (next_target == noone) next_target = instance_create(mouse_x, mouse_y, o_waypoint);
            }
         }
     }
