@@ -59,7 +59,13 @@ sprite_build = spr_farm;
    }
    if (mouse_x &gt;= 0 &amp;&amp; mouse_x &lt;= view_wview[0] &amp;&amp; mouse_y &gt;= 0 &amp;&amp; mouse_y &lt;= view_hview[0]) {
       var farm = instance_create(mouse_x, mouse_y, o_farm);
-      o_mouse.state = "default"
+      /*selected = s_get_selected();
+      if (ds_list_size(selected) != 0) {
+         for (var dx = 0; dx &lt; ds_list_size(selected); dx++) {
+             selected[| dx].state = "build";
+         }
+      }*/
+      o_mouse.state = "build_now"
    }
 }
 </string>
