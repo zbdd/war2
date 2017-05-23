@@ -122,7 +122,8 @@ if (state == "build" &amp;&amp; alarm[2] == -1) {
     image_speed = gather_image_speed;
    
    if (next_state != "build") {
-       image_speed = 0;
+      alarm[2] = -1;
+      image_speed = 0;
     }
 }
 if (state == "build") {

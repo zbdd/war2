@@ -181,7 +181,7 @@ if (state == "gather_next") {
        target = next_target;
     }
     else if (return_to != noone &amp;&amp; amount &gt; 0) next_state = "gather_return";
-    else next_state = "default";
+    else next_state = "look";
 }
 </string>
           </argument>
@@ -211,14 +211,14 @@ if (state == "gather_return") {
    if (target != noone) {
       if (target.player != player) {
          target = noone;
-         next_state = "default";
+         next_state = "look";
          }
       else {
        show_debug_message("[" + string(id) + "] Returning to [" + string(target.id) + "]");
        next_state = "move";
       }
        
-   } else next_state = "default";
+   } else next_state = "look";
 }
 </string>
           </argument>
@@ -242,7 +242,7 @@ if (state == "gather_return") {
             <kind>1</kind>
             <string>/// STATE: DROP_OFF
 if (state == "drop_off") {
-   next_state = "default";
+   next_state = "look";
     player.gold += gold;
     player.wood += wood;
     amount = 0;

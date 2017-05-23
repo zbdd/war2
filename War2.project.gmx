@@ -24,6 +24,7 @@
       <sprites name="Orc">
         <sprite>sprites\spr_orc</sprite>
       </sprites>
+      <sprite>sprites\spr_dead</sprite>
     </sprites>
     <sprites name="Buildings">
       <sprite>sprites\spr_farm</sprite>
@@ -68,6 +69,7 @@
         <object>objects\o_b_build</object>
       </objects>
       <object>objects\o_p</object>
+      <object>objects\o_dead</object>
     </objects>
     <objects name="Buildings">
       <objects name="Base">

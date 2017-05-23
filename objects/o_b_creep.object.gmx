@@ -81,6 +81,62 @@ state_count = 0;
         </arguments>
       </action>
     </event>
+    <event eventtype="1" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>for (var i = 0; i &lt; ds_list_size(global.squads); i++) {
+        squad = global.squads[| i];
+        
+        for (var o = 0; o &lt; ds_list_size(squad); o++) {
+            if (squad_id == squad[| o].squad_id) ds_list_delete(squad, o);
+        }
+    }
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (target != noone || instance_exists(target)) {
+   target.creep_health = target.creep_health - dmg;
+   show_debug_message("hit....")
+}
+show_debug_message("miss....")
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="3" enumb="2">
       <action>
         <libid>1</libid>
@@ -245,6 +301,10 @@ if (! is_selected &amp;&amp; menu != noone) {
    menu = noone;
 }
 
+if (creep_health &lt; 1) {
+   instance_create(x,y,o_dead);
+   instance_destroy();
+}
 </string>
           </argument>
         </arguments>
@@ -351,7 +411,7 @@ if (state == "move") {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// STATE: MOVING
+            <string>/// STATE: MOVING AND STATE TRANSITION BECAUSE OF
 if (state == "moving") {
    image_speed = 0.3;
    
@@ -384,9 +444,14 @@ if (state == "moving") {
       // Handle build and repair logic.
       if (ds_list_find_index(types,"build") != -1 &amp;&amp; next_state == "moving") {
           if (target != noone &amp;&amp; instance_exists(target)) {
-             if (object_is_ancestor(target.object_index, o_b_building) &amp;&amp;
-                (target.build_health &lt; target.max_health)) {
-                next_state = "build";
+             if (player == target.player) {
+                 if (object_is_ancestor(target.object_index, o_b_building) &amp;&amp;
+                    (target.build_health &lt; target.max_health)) {
+                     next_state = "build";
+                 }
+             }
+             else {
+                  next_state = "fight";
              }    
          }
       }
@@ -401,10 +466,13 @@ if (state == "moving") {
       return 0;
    
   if (object_is_ancestor(target.object_index, o_b_creep)) {
-     if (distance_to_object(target) &lt; 1) {
+     if (distance_to_object(target) &lt; 10) {
         next_state = "fight";
         path_delete(path);
        path = noone;
+       
+       with (waypoint) { instance_destroy(); }
+      waypoint = noone;
      }
   }
 }
@@ -433,7 +501,8 @@ if (state == "force_move") {
    target = next_target;
    waypoint = noone;
    return_to = noone;
-   index = target.object_index;
+   if (target != noone)
+      index = target.object_index;
    next_state = "move";
 }
 </string>
@@ -499,6 +568,61 @@ if (state == "force_fight") {
    return_to = noone;
    index = target.object_index;
    next_state = "move";
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// STATE: FIGHT
+
+if (state == "fight") {
+   if (alarm[0] &lt; 0) alarm[0] = room_speed * 1;
+    previous_sprite = spr_p_e;
+    sprite_f_north = spr_p_g_n;
+    sprite_f_south = spr_p_g_s;
+    sprite_f_east = spr_p_g_e;
+    f_image_speed = 0.3;
+    dmg = 1;
+    index = noone;
+    next_target = noone;
+   image_xscale = 1; 
+   if (direction &gt;= 305 || direction &lt;= 45) sprite_index = sprite_f_east;
+    else if (direction &gt;= 46 &amp;&amp; direction &lt;= 135) sprite_index = sprite_f_north;
+    else if (direction &gt;= 136 &amp;&amp; direction &lt;= 225) {
+        sprite_index = sprite_f_east;
+        image_xscale = -1;    
+    }
+    else if (direction &gt;= 226 &amp;&amp; direction &lt;= 304) sprite_index = sprite_f_south;
+    
+   image_speed = f_image_speed;
+   
+   if (target == noone || !instance_exists(target)) {
+      next_state = "look";
+      alarm[0] = -1;
+      show_debug_message("FIRST");
+      }
+   
+   if (next_state != "fight") {
+       alarm[0] = -1;
+       image_speed = 0;
+       show_debug_message("SECOND");
+    }
 }
 </string>
           </argument>
