@@ -34,6 +34,7 @@ defense = base_defense;
 attack = 1;
 name = "default";
 types = ds_list_create();
+log = ds_list_create();
 
 // Selection
 can_select = true;
@@ -140,6 +141,7 @@ else {
      show_debug_message("[" + string(id) + "] State change to: " + string(next_state));
      state = next_state;
      image_speed = 0;
+     ds_list_add(log, state);
 }
 run_once = noone;
 
@@ -484,7 +486,18 @@ if (is_selected &amp;&amp; is_leader) {
    draw_text(166, 685, "Health: " + string(creep_health) + "/" + string(max_health));
    draw_text(166, 700, "Attack: " + string(attack));
    draw_text(166, 715, "Defence: " + string(defense));
+   
+   // Show log
+    var min_log_size = ds_list_size(log) - 10;
+    var count = 0;
+    if (min_log_size &lt; 0) min_log_size = 0;
+    for (var dx = ds_list_size(log); dx &gt; min_log_size; dx--) {
+        count++;
+        draw_text(608, 100 + (25 * count), log[| dx - 1]);
+    }
 }
+
+
 </string>
           </argument>
         </arguments>
