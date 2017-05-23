@@ -29,6 +29,8 @@
 gold = 100;
 population = 10;
 name = "default_player";
+team = 0;
+colour = c_blue;
 </string>
           </argument>
         </arguments>

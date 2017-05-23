@@ -213,8 +213,15 @@ if (xx &gt;= 0 &amp;&amp; xx &lt;= view_wview[0] &amp;&amp; yy &gt;= 0 &amp;&amp
         }
         // Move to via Path.
         if (is_selected &amp;&amp; mouse_check_button_pressed(mb_right)) {
-           next_state = "force_move"; 
-           next_target = instance_create(mouse_x, mouse_y, o_waypoint);
+           next_target = instance_position(o_mouse.x, o_mouse.y, o_b_creep);
+           if (next_target != noone) {
+             if (next_target.player != player) {
+                next_state = "force_fight";
+             }
+           } else {
+              next_state = "force_move"; 
+              next_target = instance_create(mouse_x, mouse_y, o_waypoint);
+           }
         }
     }
     if (o_mouse.state == "build_now") {
@@ -389,6 +396,17 @@ if (state == "moving") {
       
       if (next_state == "moving") next_state = "default";
    }
+   // Handle fighting logic.
+   if (target == noone || !object_exists(target))
+      return 0;
+   
+  if (object_is_ancestor(target.object_index, o_b_creep)) {
+     if (distance_to_object(target) &lt; 1) {
+        next_state = "fight";
+        path_delete(path);
+       path = noone;
+     }
+  }
 }
 </string>
           </argument>
@@ -458,6 +476,34 @@ if (state == "look") {
           </argument>
         </arguments>
       </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// STATE: FORCE_FIGHT
+if (state == "force_fight") {
+   target = next_target;
+   waypoint = noone;
+   return_to = noone;
+   index = target.object_index;
+   next_state = "move";
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
     </event>
     <event eventtype="8" enumb="64">
       <action>
@@ -478,7 +524,10 @@ if (state == "look") {
             <kind>1</kind>
             <string>// DRAW MENU ITEMS
 if (is_selected &amp;&amp; is_leader) {
-   draw_sprite(sprite_portrait,-1,42,675);  
+   draw_set_colour(player.colour);
+   draw_rectangle(42-8, 674-8, (42+72), 674+72, false);
+   //draw_sprite(sprite_portrait,-1,42+(64/5),675 + (64/5));  
+   draw_sprite_stretched(sprite_portrait, -1, 42, 674, 65, 65);
    draw_sprite(sprite_index,image_index,378,700);  
 
    draw_set_colour(c_black);

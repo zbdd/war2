@@ -209,8 +209,14 @@ if (state == "gather_return") {
    target = instance_nearest(x,y,o_b_dropoff);
    
    if (target != noone) {
+      if (target.player != player) {
+         target = noone;
+         next_state = "default";
+         }
+      else {
        show_debug_message("[" + string(id) + "] Returning to [" + string(target.id) + "]");
        next_state = "move";
+      }
        
    } else next_state = "default";
 }
