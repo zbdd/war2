@@ -53,6 +53,7 @@
     <script>scripts\s_create_grid.gml</script>
     <script>scripts\s_instance_nearest_notme.gml</script>
     <script>scripts\s_get_selected.gml</script>
+    <script>scripts\s_place_building.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\o_cover</object>

@@ -77,9 +77,10 @@ draw_self();
           <argument>
             <kind>1</kind>
             <string>if (is_sub_button) {
-    image_blend = c_white;
+    /*image_blend = c_white;
     if (o_mouse.state == "build") {
-       if (mouse_x &gt;= 0 &amp;&amp; mouse_x &lt;= view_wview[0] &amp;&amp; mouse_y &gt;= 0 &amp;&amp; mouse_y &lt;= view_hview[0]) {
+       if ((mouse_x &gt;= 0 &amp;&amp; mouse_x &lt;= view_wview[0] &amp;&amp; mouse_y &gt;= 0 &amp;&amp; mouse_y &lt;= view_hview[0]) 
+          and (place_empty(mouse_x, mouse_y))) {
           draw_sprite_ext(sprite_build, -1, mouse_x,mouse_y, 
              1, 1, 0, c_green, 1); 
        } else {
@@ -88,6 +89,7 @@ draw_self();
        }
        image_blend = c_gray;
     }
+    */
 }
 draw_self();
 </string>
