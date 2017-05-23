@@ -57,7 +57,7 @@ if (target != noone) {
        if (object_is_ancestor(target.object_index, o_b_building)) {
           if (target.build_health &lt; target.max_health) {
              target.build_health += build_amount;
-             show_debug_message("[" + string(id) + "] Building : " + string(object_get_name(target.object_index)) + " Health: " + string(target.health) + "/" + string(target.max_health));
+             show_debug_message("[" + string(id) + "] Building : " + string(object_get_name(target.object_index)) + " Health: " + string(target.build_health) + "/" + string(target.max_health));
            }
        }
    }
