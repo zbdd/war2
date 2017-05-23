@@ -369,7 +369,7 @@ if (state == "move") {
        end_x = target.x;
        end_y = target.y;
         
-       grid = s_create_grid();
+       grid = s_create_grid_exclude(self);
        path = path_add();
        
        waypoint = instance_create(end_x,end_y,o_waypoint);
