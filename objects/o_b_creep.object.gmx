@@ -261,10 +261,11 @@ if (xx &gt;= 0 &amp;&amp; xx &lt;= view_wview[0] &amp;&amp; yy &gt;= 0 &amp;&amp
    // why not have game state in the fucking mouse object.
    if (o_mouse.state != "build") {
         // Select if within selection box.
-        if (mouse_check_button_released(mb_left) &amp;&amp; can_select) {
+        if (mouse_check_button_released(mb_left) &amp;&amp; can_select &amp;&amp; (player == global.players[0])) {
            if (point_in_rectangle(x, y, global.start_x, global.start_y, global.end_x, global.end_y)) {
               run_once = "select";
            }
+           else if (instance_position(mouse_x, mouse_y, self)) run_once = "select";
            else is_selected = false;
         }
         // Move to via Path.
