@@ -54,7 +54,28 @@ image_speed = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>state = next_state;
+            <string>/// STATE LOGIC
+x = mouse_x;
+y = mouse_y;
+
+if (state == "default") {
+   image_blend = c_white;
+   sprite_index = spr_mouse;
+}
+
+if (state == "build") {
+   if (mouse_check_button_pressed(mb_left)) {
+      if (valid_spot) {
+         instance_create(mouse_x, mouse_y, o_farm);
+      }
+   }
+}
+
+if ((state != "default") &amp;&amp; (mouse_check_button_released(mb_right))) {
+   next_state = "default";
+}
+
+state = next_state;
 </string>
           </argument>
         </arguments>
@@ -78,7 +99,7 @@ image_speed = 0;
           <argument>
             <kind>1</kind>
             <string>/// STATE LOGIC
-x = mouse_x;
+/*x = mouse_x;
 y = mouse_y;
 
 if (state == "default") {
@@ -97,7 +118,7 @@ if (state == "build") {
 
 if ((state != "default") &amp;&amp; (mouse_check_button_released(mb_right))) {
    next_state = "default";
-}
+}*/
 
 </string>
           </argument>
