@@ -142,39 +142,6 @@ if (! is_selected &amp;&amp; menu != noone) {
         </arguments>
       </action>
     </event>
-    <event eventtype="8" enumb="64">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>// DRAW MENU ITEMS
-/*if (is_selected) {
-   draw_sprite(sprite_portrait,-1,42,675);  
-   draw_sprite(sprite_index,image_index,378,700);  
-
-   draw_set_colour(c_black);
-   draw_text(166, 670, name);
-   draw_text(166, 685, "Health: " + string(health) + "/" + string(max_health));
-   draw_text(166, 700, "Attack: " + string(attack));
-   draw_text(166, 715, "Defence: " + string(defense));
-}*/
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
     <event eventtype="8" enumb="0">
       <action>
         <libid>1</libid>
@@ -197,7 +164,7 @@ if (! is_selected &amp;&amp; menu != noone) {
 } else image_index = 0;
 if (is_selected) {
    draw_set_colour(c_red);
-   draw_ellipse(x+sprite_width/2, y+sprite_height/2, x-sprite_width/2, y-sprite_height/2, true); 
+   draw_ellipse(x, y, x+sprite_width, y+sprite_height, true); 
 }
 draw_self();
 </string>

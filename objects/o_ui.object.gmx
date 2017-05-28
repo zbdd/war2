@@ -26,7 +26,7 @@
           <argument>
             <kind>1</kind>
             <string>char = noone;
-depth = -1000000000;
+depth = -10000000;
 </string>
           </argument>
         </arguments>
@@ -53,8 +53,9 @@ depth = -1000000000;
 draw_set_colour(char.player.colour);
 draw_rectangle(42-8, 674-8, (42+72), 674+72, false);
 //draw_sprite(sprite_portrait,-1,42+(64/5),675 + (64/5));  
-draw_sprite_stretched(char.sprite_portrait, -1, 42, 674, 65, 65);
-draw_sprite(char.sprite_index,char.image_index,378,700);  
+draw_sprite_stretched(char.sprite_index, 1, 42, 674, 65, 65);
+//draw_sprite(char.sprite_index,char.image_index,346,626); 
+//draw_sprite_stretched(char.sprite_index,char.image_index,346,670,64,64);
 
 draw_set_colour(c_black);
 draw_text(166, 670, char.name);
