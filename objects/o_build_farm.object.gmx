@@ -54,14 +54,8 @@ sprite_build = spr_farm;
             <kind>1</kind>
             <string>if (mouse_check_button_pressed(mb_left)) {
    if (position_meeting(mouse_x, mouse_y, o_build_farm)) {
-   /*   if (o_mouse.state != "build") o_mouse.state = "build";
-      else o_mouse.state = "default";
-   }
-   if (mouse_x &gt;= 0 &amp;&amp; mouse_x &lt;= view_wview[0] &amp;&amp; mouse_y &gt;= 0 &amp;&amp; mouse_y &lt;= view_hview[0]) {
-     var farm = instance_create(mouse_x, mouse_y, o_farm);
-     o_mouse.state = "default"
-   }*/
-      s_place_building("farm");
+      o_mouse.next_state = "build";
+      o_mouse.build_type = o_farm;
    }
 }
 </string>
