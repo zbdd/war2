@@ -41,6 +41,7 @@ is_selected = false;
 player = global.players[0];
 sprite_portrait = spr_button_build;
 alarm[0] = 10;
+available = false;
 </string>
           </argument>
         </arguments>

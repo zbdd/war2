@@ -183,6 +183,7 @@ if (state == "gather_next") {
     else if (return_to != noone &amp;&amp; amount &gt; 0) next_state = "gather_return";
     else next_state = "look";
 }
+
 </string>
           </argument>
         </arguments>

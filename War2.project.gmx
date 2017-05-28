@@ -59,6 +59,7 @@
     <script>scripts\s_place_building.gml</script>
     <script>scripts\s_create_grid_exclude.gml</script>
     <script>scripts\s_choose_chop.gml</script>
+    <script>scripts\s_find_mineable_trees.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\o_cover</object>

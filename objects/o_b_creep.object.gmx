@@ -504,9 +504,10 @@ if (state == "force_move") {
    target = next_target;
    waypoint = noone;
    return_to = noone;
-   if (target != noone)
-      index = target.object_index;
    next_state = "move";
+   if (!is_undefined(target))
+      index = target;
+   
 }
 </string>
           </argument>

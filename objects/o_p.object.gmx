@@ -38,6 +38,9 @@ ds_list_add(work, "mine");
 ds_list_add(work, "build");
 ds_list_add(work, "repair");
 ds_list_add(work, "wander");
+
+zacai = "think";
+todo = ds_list_create();
 </string>
           </argument>
         </arguments>
@@ -90,9 +93,22 @@ ds_list_add(work, "wander");
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// ZACID
+            <string>/// ZACAI
 event_inherited()
-if (alarm[9] &lt;= 0) alarm[9] = 2 * room_speed;
+closest = noone;
+distance = -1;
+
+if (state == "default" &amp;&amp; zacai != "think") zacai = "think"; 
+if (zacai == "think") {
+   closest = s_find_mineable_trees(self);
+   
+   if (closest != noone) {
+      next_target = closest;
+      next_state = "force_move";
+      zacai = "chop";
+   }
+}
+   //if (alarm[9] &lt;= 0) alarm[9] = 2 * room_speed;
 
 </string>
           </argument>
