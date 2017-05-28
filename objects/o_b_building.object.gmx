@@ -26,10 +26,11 @@
           <argument>
             <kind>1</kind>
             <string>/// SETUP
-health = 1;
+o_health = 1;
 attack = 0;
 defense = 1;
 name = "default";
+repair_speed = 1;
 on_fire = 0;
 burn_rate = 1;
 can_select = false;
@@ -136,7 +137,6 @@ if (! is_selected &amp;&amp; menu != noone) {
    menu = noone;
    with (global.ui) { instance_destroy(); }
 }
-if (health &gt; max_health) health = max_health;
 </string>
           </argument>
         </arguments>
@@ -192,7 +192,7 @@ if (health &gt; max_health) health = max_health;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (health &gt;= max_health) {
+            <string>if (o_health &gt;= max_health) {
    image_index = 1;
 } else image_index = 0;
 if (is_selected) {

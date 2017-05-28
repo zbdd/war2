@@ -29,6 +29,7 @@
 sprite_portrait = spr_keep;
 name = "Fort";
 type = "build";
+max_health = 3;
 </string>
           </argument>
         </arguments>

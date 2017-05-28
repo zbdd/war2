@@ -27,7 +27,7 @@
             <kind>1</kind>
             <string>/// SETUP
 image_speed = 0;
-health = 1;
+o_health = 1;
 max_health = 1;
 base_defense = 0;
 defense = base_defense;
@@ -129,7 +129,7 @@ state_count = 0;
           <argument>
             <kind>1</kind>
             <string>if (target != noone || instance_exists(target)) {
-   target.creep_health = target.creep_health - dmg;
+   target.o_health = target.o_health - dmg;
    show_debug_message("hit....")
 }
 show_debug_message("miss....")
@@ -194,7 +194,7 @@ if (next_state == state) state_count++
 else {
      state_count = 0;
      last_state = state;
-     show_debug_message("[" + string(id) + "] State change to: " + string(next_state));
+     //show_debug_message("[" + string(id) + "] State change to: " + string(next_state));
      state = next_state;
      image_speed = 0;
      ds_list_add(log, state);
@@ -449,7 +449,7 @@ if (state == "moving") {
           if (target != noone &amp;&amp; instance_exists(target)) {
              if (player == target.player) {
                  if (object_is_ancestor(target.object_index, o_b_building) &amp;&amp;
-                    (target.build_health &lt; target.max_health)) {
+                    (target.o_health &lt; target.max_health)) {
                      next_state = "build";
                  }
              }

@@ -27,7 +27,7 @@
             <kind>1</kind>
             <string>event_inherited();
 name = "Peasant";
-creep_health = 1;
+o_health = 1;
 ds_list_add(types, "build");
 ds_list_add(types, "gather");
 
@@ -36,7 +36,7 @@ work = ds_list_create();
 ds_list_add(work, "chop");
 ds_list_add(work, "mine");
 ds_list_add(work, "build");
-ds_list_add(work, "repair");
+//ds_list_add(work, "repair");
 ds_list_add(work, "wander");
 
 zacai = "think";
@@ -96,17 +96,35 @@ todo = ds_list_create();
             <string>/// ZACAI
 event_inherited()
 closest = noone;
-distance = -1;
 
 if (state == "default" &amp;&amp; zacai != "think") zacai = "think"; 
 if (zacai == "think") {
-   closest = s_find_mineable_trees(self);
-   
-   if (closest != noone) {
-      next_target = closest;
-      next_state = "force_move";
-      zacai = "chop";
+   for(dx = 0; dx &lt; ds_list_size(work); dx++) {
+      switch (work[| dx]) {
+         case "chop":
+         closest = s_find_mineable_type(self, "wood");
+         if (closest != noone) {
+            next_target = closest;
+            next_state = "force_move";
+            zacai = "chop";
+         }
+         break;
+         
+         case "repair":
+         closest = s_find_repairable(self);
+         if (closest != noone) {
+            next_target = closest;
+            next_state = "force_move";
+            zacai = "repair";
+         }
+         break;
+         
+         default:
+         break;
+      }
    }
+   if (zacai != "think") ds_list_add(log, zacai);
+   show_debug_message("[" + string(id) + "] zacai: " + zacai + " state: " + string(next_state));
 }
    //if (alarm[9] &lt;= 0) alarm[9] = 2 * room_speed;
 

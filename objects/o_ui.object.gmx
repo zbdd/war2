@@ -58,7 +58,7 @@ draw_sprite(char.sprite_index,char.image_index,378,700);
 
 draw_set_colour(c_black);
 draw_text(166, 670, char.name);
-draw_text(166, 685, "Health: " + string(char.health) + "/" + string(char.max_health));
+draw_text(166, 685, "Health: " + string(char.o_health) + "/" + string(char.max_health));
 draw_text(166, 700, "Attack: " + string(char.attack));
 draw_text(166, 715, "Defence: " + string(char.defense));
 

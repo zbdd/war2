@@ -51,17 +51,8 @@ build_amount = 20;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// BUILD/REPAIR OBJECT
-if (target != noone) {
-   if (instance_exists(target)) { 
-       if (object_is_ancestor(target.object_index, o_b_building)) {
-          if (target.build_health &lt; target.max_health) {
-             target.build_health += build_amount;
-             show_debug_message("[" + string(id) + "] Building : " + string(object_get_name(target.object_index)) + " Health: " + string(target.build_health) + "/" + string(target.max_health));
-           }
-       }
-   }
-}  
+            <string>/// COUNTER
+
 </string>
           </argument>
         </arguments>
@@ -107,7 +98,10 @@ event_inherited();
           <argument>
             <kind>1</kind>
             <string>/// STATE: BUILD
-if (state == "build" &amp;&amp; alarm[2] == -1) {
+if (alarm[2] == 0) {
+   target = s_repair_target(target);
+}
+if (state == "build" &amp;&amp; alarm[2] == -1 &amp;&amp; target.o_health &lt; target.max_health) {
    // TODO Change sprites and their names.
    image_xscale = 1; 
    if (direction &gt;= 305 || direction &lt;= 45) sprite_index = sprite_gather_east;
@@ -126,16 +120,14 @@ if (state == "build" &amp;&amp; alarm[2] == -1) {
       image_speed = 0;
     }
 }
-if (state == "build") {
-    if (target != noone) {
-       if (instance_exists(target)) { 
-           if (object_is_ancestor(target.object_index, o_b_building)) {
-              if (target.build_health &gt;= target.max_health) {
-                 next_state = "look";
-              }
-           }
+if (state == "build" &amp;&amp; target != noone) {
+   if (instance_exists(target)) { 
+       if (object_is_ancestor(target.object_index, o_b_building)) {
+          if (target.o_health &gt;= target.max_health) {
+             next_state = "look";
+          }
        }
-    }
+   }
 }
 
 </string>
