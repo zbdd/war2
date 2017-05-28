@@ -32,6 +32,7 @@ xx = 0;
 yy = 0;
 valid_spot = false;
 image_speed = 0;
+depth = -10000000;
 </string>
           </argument>
         </arguments>
@@ -64,11 +65,14 @@ if (state == "default") {
 }
 
 if (state == "build") {
-   if (mouse_check_button_pressed(mb_left)) {
-      if (valid_spot) {
+   if ((mouse_x &gt;= 0 &amp;&amp; mouse_x &lt;= view_wview[0] &amp;&amp; mouse_y &gt;= 0 &amp;&amp; mouse_y &lt;= view_hview[0])
+       and (place_empty(mouse_x, mouse_y))) {
+       valid_spot = true;
+    } else valid_spot = false;
+    
+      if (valid_spot &amp;&amp; mouse_check_button_pressed(mb_left)) {
          instance_create(mouse_x, mouse_y, o_farm);
       }
-   }
 }
 
 if ((state != "default") &amp;&amp; (mouse_check_button_released(mb_right))) {
@@ -125,6 +129,41 @@ if ((state != "default") &amp;&amp; (mouse_check_button_released(mb_right))) {
         </arguments>
       </action>
     </event>
+    <event eventtype="8" enumb="64">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>image_blend = c_white;
+if (state == "build") {
+   if(valid_spot) image_blend = c_green;
+   else image_blend = c_red;
+   sprite_index = spr_button_build;
+}
+else if (state == "order_chop") {
+     sprite_index = spr_chop;
+}
+else
+    sprite_index = spr_mouse;
+draw_text(x - 50, y - 50, state);
+draw_self();
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="8" enumb="0">
       <action>
         <libid>1</libid>
@@ -142,9 +181,10 @@ if ((state != "default") &amp;&amp; (mouse_check_button_released(mb_right))) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (state == "build") {
-    if ((mouse_x &gt;= 0 &amp;&amp; mouse_x &lt;= view_wview[0] &amp;&amp; mouse_y &gt;= 0 &amp;&amp; mouse_y &lt;= view_hview[0])) { 
-       //and (place_empty(mouse_x, mouse_y))) {
+            <string>/*image_blend = c_white;
+if (state == "build") {
+    if ((mouse_x &gt;= 0 &amp;&amp; mouse_x &lt;= view_wview[0] &amp;&amp; mouse_y &gt;= 0 &amp;&amp; mouse_y &lt;= view_hview[0])
+       and (place_empty(mouse_x, mouse_y))) {
        valid_spot = true;
        image_blend = c_green;
     } else {
@@ -158,7 +198,7 @@ else if (state == "order_chop") {
 else
     sprite_index = spr_mouse;
 draw_text(x - 50, y - 50, state);
-draw_self();
+draw_self();*/
 </string>
           </argument>
         </arguments>

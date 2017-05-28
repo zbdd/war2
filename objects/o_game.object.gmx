@@ -33,7 +33,7 @@ global.start_y = 0;
 global.end_x = 0;
 global.end_y = 0;
 global.squads = ds_list_create();
-cursor_sprite = spr_mouse;
+//cursor_sprite = spr_mouse;
 window_set_cursor(cr_none);
 global.players[0] = instance_create(x,y,o_player);
 global.players[1] = instance_create(x,y,o_player);
