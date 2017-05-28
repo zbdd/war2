@@ -253,15 +253,13 @@ if (inst != noone) {
             <string>/// ALWAYS RUN
 depth = y * -1;
 
-xx = window_view_mouse_get_x(1);
-yy = window_view_mouse_get_y(1);
-
-if (xx &gt;= 0 &amp;&amp; xx &lt;= view_wview[0] &amp;&amp; yy &gt;= 0 &amp;&amp; yy &lt;= view_hview[0]) {
+if (s_is_in_main_view()) {
    // Not sure what I'm doing with this yet...
    // why not have game state in the fucking mouse object.
    if (o_mouse.state != "build") {
         // Select if within selection box.
-        if (mouse_check_button_released(mb_left) &amp;&amp; can_select &amp;&amp; (player == global.players[0])) {
+        if (mouse_check_button_released(mb_left) &amp;&amp; can_select &amp;&amp; (player == global.players[0])
+           &amp;&amp; o_mouse.state == "default") {
            if (point_in_rectangle(x, y, global.start_x, global.start_y, global.end_x, global.end_y)) {
               run_once = "select";
            }
@@ -297,7 +295,7 @@ if (xx &gt;= 0 &amp;&amp; xx &lt;= view_wview[0] &amp;&amp; yy &gt;= 0 &amp;&amp
 if (is_leader &amp;&amp; is_selected &amp;&amp; menu == noone) {
    menu = instance_create(x,y,o_menu);
    menu.selected = id;
-   menu.build_menu = true;
+   menu.type = "build";
    s_update_ui(self);
 }
 if (! is_selected &amp;&amp; menu != noone) {

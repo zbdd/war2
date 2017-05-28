@@ -35,7 +35,7 @@ burn_rate = 1;
 can_select = false;
 image_speed = 0;
 depth = y * -1;
-max_health = 100;
+max_health = 1;
 passable = false;
 is_selected = false;
 player = global.players[0];
@@ -43,6 +43,35 @@ sprite_portrait = spr_button_build;
 alarm[0] = 10;
 available = false;
 log = ds_list_create();
+menu = noone;
+type = noone;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="1" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (menu != noone) {
+   with (menu) { instance_destroy(); }
+   menu = noone;
+   with (global.ui) { instance_destroy(); }
+}
 </string>
           </argument>
         </arguments>
@@ -89,12 +118,23 @@ can_select = true;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (mouse_check_button_released(mb_left) &amp;&amp; can_select &amp;&amp; (player == global.players[0])) {
+            <string>if (mouse_check_button_released(mb_left) &amp;&amp; can_select &amp;&amp; (player == global.players[0])
+   &amp;&amp; o_mouse.state == "default" &amp;&amp; s_is_in_main_view()) {
    if (instance_position(mouse_x, mouse_y, self)) is_selected = true;
    else is_selected = false;
 }
 if (is_selected) {
    s_update_ui(self);
+}
+if (is_selected &amp;&amp; menu == noone) {
+   menu = instance_create(x,y,o_menu);
+   menu.selected = id;
+   menu.type = type;
+}
+if (! is_selected &amp;&amp; menu != noone) {
+   with (menu) { instance_destroy(); }
+   menu = noone;
+   with (global.ui) { instance_destroy(); }
 }
 if (health &gt; max_health) health = max_health;
 </string>

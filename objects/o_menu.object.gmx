@@ -32,6 +32,7 @@ show_build_menu = false;
 buttons = ds_list_create();
 build_menu = false;
 is_sub_menu_loaded = false;
+type = "default";
 </string>
           </argument>
         </arguments>
@@ -80,12 +81,12 @@ is_sub_menu_loaded = false;
           <argument>
             <kind>1</kind>
             <string>/// BUILD MENU
-if (build_menu) {
-   build_menu = false;
-   menu_x = 520;
-   menu_y = 661;
-   menu_x_max = 791;
+menu_x = 520;
+menu_y = 661;
+menu_x_max = 791;
    
+switch (type) {
+   case "build":
    // TOP
     if (selected != noone) {
        //if (ds_list_find_index(selected.types, "build") != -1) {
@@ -100,7 +101,15 @@ if (build_menu) {
           ds_list_add(buttons, button);
        //}
     
-    } 
+    }
+    break;
+    
+    case "wood":
+        button = instance_create(menu_x, menu_y, o_button);
+        button.sprite_index = spr_button_chop;
+        button.on_click = "order_chop_this";
+        ds_list_add(buttons, button);
+    break; 
     // BOTTOM
 }
 if (mouse_check_button_pressed(mb_left)) {
@@ -128,6 +137,10 @@ if (mouse_check_button_pressed(mb_left)) {
             } else {
               o_mouse.next_state = "default";
             }
+         break;
+         
+         case "order_chop_this":
+            selected.available = true;
          break;
          
       }

@@ -26,6 +26,9 @@
           <argument>
             <kind>1</kind>
             <string>event_inherited();
+sprite_portrait = spr_keep;
+name = "Fort";
+type = "build";
 </string>
           </argument>
         </arguments>

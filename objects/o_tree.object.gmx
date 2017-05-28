@@ -60,7 +60,6 @@ if (mouse_check_button_released(mb_left) &amp;&amp; can_select &amp;&amp; (playe
    if (instance_position(mouse_x, mouse_y, self)) available = true;
    //else available = false;
 }
-if (health &gt; max_health) build_health = max_health;
 </string>
           </argument>
         </arguments>
