@@ -26,7 +26,7 @@
           <argument>
             <kind>1</kind>
             <string>/// SETUP
-build_health = 1;
+health = 1;
 attack = 0;
 defense = 1;
 name = "default";
@@ -42,6 +42,7 @@ player = global.players[0];
 sprite_portrait = spr_button_build;
 alarm[0] = 10;
 available = false;
+log = ds_list_create();
 </string>
           </argument>
         </arguments>
@@ -92,7 +93,10 @@ can_select = true;
    if (instance_position(mouse_x, mouse_y, self)) is_selected = true;
    else is_selected = false;
 }
-if (build_health &gt; max_health) build_health = max_health;
+if (is_selected) {
+   s_update_ui(self);
+}
+if (health &gt; max_health) health = max_health;
 </string>
           </argument>
         </arguments>
@@ -116,16 +120,16 @@ if (build_health &gt; max_health) build_health = max_health;
           <argument>
             <kind>1</kind>
             <string>// DRAW MENU ITEMS
-if (is_selected) {
+/*if (is_selected) {
    draw_sprite(sprite_portrait,-1,42,675);  
    draw_sprite(sprite_index,image_index,378,700);  
 
    draw_set_colour(c_black);
    draw_text(166, 670, name);
-   draw_text(166, 685, "Health: " + string(build_health) + "/" + string(max_health));
+   draw_text(166, 685, "Health: " + string(health) + "/" + string(max_health));
    draw_text(166, 700, "Attack: " + string(attack));
    draw_text(166, 715, "Defence: " + string(defense));
-}
+}*/
 </string>
           </argument>
         </arguments>
@@ -148,7 +152,7 @@ if (is_selected) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (build_health &gt;= max_health) {
+            <string>if (health &gt;= max_health) {
    image_index = 1;
 } else image_index = 0;
 if (is_selected) {

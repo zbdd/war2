@@ -27,7 +27,7 @@
             <kind>1</kind>
             <string>/// SETUP
 image_speed = 0;
-creep_health = 1;
+health = 1;
 max_health = 1;
 base_defense = 0;
 defense = base_defense;
@@ -155,19 +155,18 @@ show_debug_message("miss....")
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// RUN ONCE
-
-// SELECT SQUAD
+            <string>/// SELECT SQUAD
+// TODO - OUTDATED CODE
 if (run_once = "select") {
    is_selected = true;
    found = -1;
-    for (var i = 0; i &lt; ds_list_size(global.squads); i++) {
+    /*for (var i = 0; i &lt; ds_list_size(global.squads); i++) {
         squad = global.squads[| i];
         
         for (var o = 0; o &lt; ds_list_size(squad); o++) {
             if (squad_id == squad[| o].squad_id) squad[| o].is_selected = true;
         }
-    }
+    }*/
     select = false;
 }
 </string>
@@ -299,13 +298,15 @@ if (is_leader &amp;&amp; is_selected &amp;&amp; menu == noone) {
    menu = instance_create(x,y,o_menu);
    menu.selected = id;
    menu.build_menu = true;
+   s_update_ui(self);
 }
 if (! is_selected &amp;&amp; menu != noone) {
    with (menu) { instance_destroy(); }
    menu = noone;
+   with (global.ui) { instance_destroy(); }
 }
 
-if (creep_health &lt; 1) {
+if (health &lt; 1) {
    instance_create(x,y,o_dead);
    instance_destroy();
 }
@@ -652,7 +653,8 @@ if (state == "fight") {
           <argument>
             <kind>1</kind>
             <string>// DRAW MENU ITEMS
-if (is_selected &amp;&amp; is_leader) {
+// TODO REMOVE ONCE SAFE
+/*if (is_selected &amp;&amp; is_leader) {
    draw_set_colour(player.colour);
    draw_rectangle(42-8, 674-8, (42+72), 674+72, false);
    //draw_sprite(sprite_portrait,-1,42+(64/5),675 + (64/5));  
@@ -673,7 +675,7 @@ if (is_selected &amp;&amp; is_leader) {
         count++;
         draw_text(608, 100 + (25 * count), log[| dx - 1]);
     }
-}
+}*/
 
 
 </string>

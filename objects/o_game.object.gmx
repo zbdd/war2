@@ -26,6 +26,7 @@
           <argument>
             <kind>1</kind>
             <string>/// INSTANTIATE WORLD
+global.ui = noone;
 global.lock = noone;
 global.start_x = 0;
 global.start_y = 0;
@@ -40,6 +41,7 @@ global.players[1].colour = c_red;
 
 global.waypoints = ds_map_create();
 global.waypoints_dist = ds_map_create();
+global.selected = ds_list_create();
 
 selected = noone;
 draw = false;
