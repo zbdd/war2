@@ -88,11 +88,17 @@ if (build_menu) {
    
    // TOP
     if (selected != noone) {
-       if (ds_list_find_index(selected.types, "build") != -1) {
+       //if (ds_list_find_index(selected.types, "build") != -1) {
           button = instance_create(menu_x, menu_y, o_button);
           button.on_click = "show_build_menu";
           ds_list_add(buttons, button);
-       }
+      // }
+       //if (ds_list_find_index(selected.types, "chop") != -1) {
+          button = instance_create(menu_x + 48, menu_y, o_button);
+          button.sprite_index = spr_button_chop;
+          button.on_click = "order_chop";
+          ds_list_add(buttons, button);
+       //}
     
     } 
     // BOTTOM
@@ -100,6 +106,8 @@ if (build_menu) {
 if (mouse_check_button_pressed(mb_left)) {
    var inst = instance_position(mouse_x, mouse_y, o_button);
    if (inst != noone) {
+   /// TODO REMOVE
+      show_debug_message(inst.on_click);
       switch (inst.on_click) {
          case "show_build_menu":
             if (! is_sub_menu_loaded) {
@@ -113,6 +121,15 @@ if (mouse_check_button_pressed(mb_left)) {
                }
             }
          break;
+         
+         case "order_chop":
+            if (o_mouse.state != "order_chop") {
+               o_mouse.next_state = "order_chop";
+            } else {
+              o_mouse.next_state = "default";
+            }
+         break;
+         
       }
    }
 }

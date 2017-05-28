@@ -88,10 +88,7 @@ can_select = true;
           <argument>
             <kind>1</kind>
             <string>if (mouse_check_button_released(mb_left) &amp;&amp; can_select &amp;&amp; (player == global.players[0])) {
-   if (point_in_rectangle(x, y, global.start_x, global.start_y, global.end_x, global.end_y)) {
-      is_selected = true;
-   }
-   else if (instance_position(mouse_x, mouse_y, self)) is_selected = true;
+   if (instance_position(mouse_x, mouse_y, self)) is_selected = true;
    else is_selected = false;
 }
 if (build_health &gt; max_health) build_health = max_health;

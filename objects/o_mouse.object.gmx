@@ -95,6 +95,10 @@ if (state == "build") {
    }
 }
 
+if ((state != "default") &amp;&amp; (mouse_check_button_released(mb_right))) {
+   next_state = "default";
+}
+
 </string>
           </argument>
         </arguments>
@@ -117,13 +121,21 @@ if (state == "build") {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if ((mouse_x &gt;= 0 &amp;&amp; mouse_x &lt;= view_wview[0] &amp;&amp; mouse_y &gt;= 0 &amp;&amp; mouse_y &lt;= view_hview[0])) { 
-   //and (place_empty(mouse_x, mouse_y))) {
-   valid_spot = true;
-   image_blend = c_green;
-} else {
-  image_blend = c_red;
+            <string>if (state == "build") {
+    if ((mouse_x &gt;= 0 &amp;&amp; mouse_x &lt;= view_wview[0] &amp;&amp; mouse_y &gt;= 0 &amp;&amp; mouse_y &lt;= view_hview[0])) { 
+       //and (place_empty(mouse_x, mouse_y))) {
+       valid_spot = true;
+       image_blend = c_green;
+    } else {
+      image_blend = c_red;
+    }
+    sprite_index = spr_button_build;
 }
+else if (state == "order_chop") {
+     sprite_index = spr_chop;
+}
+else
+    sprite_index = spr_mouse;
 draw_text(x - 50, y - 50, state);
 draw_self();
 </string>

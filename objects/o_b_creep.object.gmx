@@ -269,7 +269,7 @@ if (xx &gt;= 0 &amp;&amp; xx &lt;= view_wview[0] &amp;&amp; yy &gt;= 0 &amp;&amp
            else is_selected = false;
         }
         // Move to via Path.
-        if (is_selected &amp;&amp; mouse_check_button_pressed(mb_right)) {
+        if (is_selected &amp;&amp; mouse_check_button_pressed(mb_right) &amp;&amp; o_mouse.state == "default") {
            next_target = instance_position(o_mouse.x, o_mouse.y, o_b_creep);
            if (next_target != noone) {
              if (next_target.player != player) {
