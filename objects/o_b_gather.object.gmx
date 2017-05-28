@@ -171,10 +171,7 @@ if (state == "gather") {
             <kind>1</kind>
             <string>/// STATE: GATHER_NEXT
 if (state == "gather_next") {
-   if (object_is_ancestor(index, o_b_resource)) {
-      next_target = instance_nearest(x,y, index);
-      if (distance_to_object(next_target) &gt; gather_search_distance) next_target = noone;
-    } else next_target = noone;
+   next_target = s_find_mineable_trees(self);
     
    if (next_target != noone &amp;&amp; instance_exists(next_target)) {
        next_state = "move";

@@ -38,6 +38,9 @@ global.players[0] = instance_create(x,y,o_player);
 global.players[1] = instance_create(x,y,o_player);
 global.players[1].colour = c_red;
 
+global.waypoints = ds_map_create();
+global.waypoints_dist = ds_map_create();
+
 selected = noone;
 draw = false;
 
@@ -46,7 +49,7 @@ draw = false;
 //instance_create(192, 64, o_p);
 //instance_create(352, 64, o_p);
 s_create_squad(192, 64, o_p, 1, global.players[0]);
-s_create_squad(300, 80, o_p, 1, global.players[1]);
+//s_create_squad(300, 80, o_p, 1, global.players[1]);
 //s_create_squad(352, 64, o_p, 5);
 </string>
           </argument>

@@ -63,6 +63,7 @@ move_speed = 3;
 
 // Gathering
 amount = 0;
+distance = -1;
 
 // Sprite Control
 sprite_east = spr_p_e;
@@ -385,10 +386,10 @@ if (state == "move") {
        // clean up waypoints
        if (target.object_index == o_waypoint) with (target) { instance_destroy(); };
        
-       if (last_state == "force_move") {
+       /*if (last_state == "force_move") {
             target = instance_position(end_x, end_y, o_b_creep);
             if (target == noone) target = instance_position(end_x, end_y, o_b_building);
-       }
+       }*/
         mp_grid_path(grid, path, x, y, waypoint.x, waypoint.y, true);
         path_start(path, move_speed, path_action_stop, false);
         next_state = "moving";
