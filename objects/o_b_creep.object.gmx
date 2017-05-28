@@ -194,7 +194,8 @@ if (next_state == state) state_count++
 else {
      state_count = 0;
      last_state = state;
-     //show_debug_message("[" + string(id) + "] State change to: " + string(next_state));
+     if (next_state != state)
+        show_debug_message("[" + string(id) + "] State change to: " + string(next_state));
      state = next_state;
      image_speed = 0;
      ds_list_add(log, state);

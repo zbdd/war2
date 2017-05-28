@@ -172,14 +172,16 @@ if (state == "gather") {
             <string>/// STATE: GATHER_NEXT
 if (state == "gather_next") {
    // Resume last job.
-   var last_job = "nothing";
+   /*var last_job = "nothing";
    for (var dx = ds_list_size(log) -1; dx &gt;= 0; dx--) {
       last_job = log[| dx];
       if (last_job == "chop" || last_job == "mine") {
          next_target = s_find_mineable_type(self, last_job);
          break;
       }
-   }
+   }*/
+   zacai = "think";
+   next_state = "default";
     
    if (next_target != noone &amp;&amp; instance_exists(next_target)) {
        next_state = "move";

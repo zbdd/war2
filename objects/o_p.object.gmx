@@ -36,7 +36,7 @@ work = ds_list_create();
 ds_list_add(work, "chop");
 ds_list_add(work, "mine");
 ds_list_add(work, "build");
-//ds_list_add(work, "repair");
+ds_list_add(work, "repair");
 ds_list_add(work, "wander");
 
 zacai = "think";
@@ -99,7 +99,7 @@ closest = noone;
 
 if (state == "default" &amp;&amp; zacai != "think") zacai = "think"; 
 if (zacai == "think") {
-   for(dx = 0; dx &lt; ds_list_size(work); dx++) {
+   for(var dx = 0; dx &lt; ds_list_size(work); dx++) {
       switch (work[| dx]) {
          case "chop":
          closest = s_find_mineable_type(self, "wood");
@@ -107,6 +107,8 @@ if (zacai == "think") {
             next_target = closest;
             next_state = "force_move";
             zacai = "chop";
+            show_debug_message("[" + string(id) + "] zacai: " + zacai + " state: " + string(next_state));
+            exit;
          }
          break;
          
@@ -116,6 +118,8 @@ if (zacai == "think") {
             next_target = closest;
             next_state = "force_move";
             zacai = "repair";
+            show_debug_message("[" + string(id) + "] zacai: " + zacai + " state: " + string(next_state));
+            exit;
          }
          break;
          
@@ -124,7 +128,6 @@ if (zacai == "think") {
       }
    }
    if (zacai != "think") ds_list_add(log, zacai);
-   show_debug_message("[" + string(id) + "] zacai: " + zacai + " state: " + string(next_state));
 }
    //if (alarm[9] &lt;= 0) alarm[9] = 2 * room_speed;
 
