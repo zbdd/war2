@@ -30,6 +30,7 @@ food = 6;
 name = "Farm";
 type = "build";
 max_health = 3;
+o_health = max_health;
 </string>
           </argument>
         </arguments>

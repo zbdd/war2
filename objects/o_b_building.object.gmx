@@ -71,7 +71,6 @@ type = noone;
             <string>if (menu != noone) {
    with (menu) { instance_destroy(); }
    menu = noone;
-   with (global.ui) { instance_destroy(); }
 }
 </string>
           </argument>

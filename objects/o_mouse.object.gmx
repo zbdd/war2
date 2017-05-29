@@ -72,7 +72,8 @@ if (state == "build") {
     } else valid_spot = false;
     
       if (valid_spot &amp;&amp; mouse_check_button_pressed(mb_left)) {
-         instance_create(mouse_x, mouse_y, build_type);
+         var building = instance_create(mouse_x, mouse_y, build_type);
+         building.o_health = floor(building.max_health/10);
       }
 }
 
