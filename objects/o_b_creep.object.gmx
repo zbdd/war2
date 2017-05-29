@@ -366,26 +366,22 @@ if (state == "move") {
    }
  
     if (target != noone &amp;&amp; instance_exists(target)) {
-       end_x = target.x;
-       end_y = target.y;
         
        grid = s_create_grid_exclude(self);
        path = path_add();
        
-       waypoint = instance_create(end_x,end_y,o_waypoint);
+       // TODO The fuck was this for? 
+       waypoint = instance_create(target.x,target.y,o_waypoint);
+       
        var herepoint = instance_create(x, y, o_waypoint);
-       waypoint = s_find_nearest_spot(waypoint, herepoint, grid);
+       waypoint = s_find_nearest_spot(target, herepoint, grid);
    }
    if (waypoint == noone) next_state = "default";
        
     if (waypoint != noone &amp;&amp; path != noone) {
-       // clean up waypoints
+       // Clean up waypoints.
        if (target.object_index == o_waypoint) with (target) { instance_destroy(); };
        
-       /*if (last_state == "force_move") {
-            target = instance_position(end_x, end_y, o_b_creep);
-            if (target == noone) target = instance_position(end_x, end_y, o_b_building);
-       }*/
         mp_grid_path(grid, path, x, y, waypoint.x, waypoint.y, true);
         path_start(path, move_speed, path_action_stop, false);
         next_state = "moving";

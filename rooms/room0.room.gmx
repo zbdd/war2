@@ -83,7 +83,7 @@
     <instance objName="o_cover" x="224" y="256" name="inst_B8FAC017" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="o_cover" x="256" y="256" name="inst_E25C453D" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="o_farm" x="128" y="64" name="inst_09AB3C44" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="o_keep" x="96" y="256" name="inst_4F15AD95" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="o_keep" x="96" y="192" name="inst_4F15AD95" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="o_tree" x="288" y="256" name="inst_BC69AE4E" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="o_tree" x="320" y="224" name="inst_28E3FC8C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="o_tree" x="352" y="160" name="inst_E5C6164A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
@@ -110,7 +110,7 @@
     <instance objName="o_tree" x="64" y="64" name="inst_6D6CA54C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="o_tree" x="35" y="77" name="inst_5EC4B8F5" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="o_tree" x="44" y="54" name="inst_752CE1ED" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="o_goldmine" x="288" y="32" name="inst_57106FA9" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="o_goldmine" x="64" y="160" name="inst_57106FA9" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="o_GUI" x="96" y="96" name="inst_BC333B4C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="o_mouse" x="128" y="128" name="inst_546E07B9" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
