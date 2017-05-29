@@ -1,4 +1,5 @@
-var obj = argument0;
+var obj = noone;
+with (argument0) { obj = instance_copy(false); }
 var peon = argument1;
 var cy =0;
 var cx =0;

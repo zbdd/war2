@@ -371,8 +371,6 @@ if (state == "move") {
        path = path_add();
        
        // TODO The fuck was this for? 
-       waypoint = instance_create(target.x,target.y,o_waypoint);
-       
        var herepoint = instance_create(x, y, o_waypoint);
        waypoint = s_find_nearest_spot(target, herepoint, grid);
    }
@@ -380,7 +378,7 @@ if (state == "move") {
        
     if (waypoint != noone &amp;&amp; path != noone) {
        // Clean up waypoints.
-       if (target.object_index == o_waypoint) with (target) { instance_destroy(); };
+       //if (object_get_name(target.object_index) == o_waypoint) with (target) { instance_destroy(); };
        
         mp_grid_path(grid, path, x, y, waypoint.x, waypoint.y, true);
         path_start(path, move_speed, path_action_stop, false);
@@ -500,7 +498,6 @@ if (state == "force_move") {
    next_state = "move";
    if (!is_undefined(target))
       index = target;
-   
 }
 </string>
           </argument>

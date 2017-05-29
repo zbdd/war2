@@ -1,5 +1,6 @@
 // God forgive me for my sins.
-var go_to = argument0
+var go_to = noone;
+with (argument0) { go_to = instance_copy(false); }
 var mover = argument1
 var grid = argument2;
 var path = path_add();
@@ -7,9 +8,9 @@ var attempt = 0;
 var radius = 4
 var force_break = 16;
 var default_goto = go_to;
-if (object_get_name(go_to.object_index) == "o_waypoint") {
+if (object_get_name(go_to.object_index) != "o_waypoint") {
    default_goto = instance_create(go_to.x + go_to.sprite_width/2, go_to.y + go_to.sprite_height/2, o_waypoint);
-   goto = default_goto;
+   go_to = default_goto;
 }
 var cleanup = ds_list_create();
 var closer = 0;
@@ -45,27 +46,30 @@ do {
                     tmp_waypoint[| idy] = tmp_waypoint[| idy-1];
                 }
                 tmp_waypoint[| 0] = instance_copy(false);
-                
+                ds_list_add(cleanup, tmp_waypoint[| 0]);
             }
         }
     }
 
     for(var idw = 0; idw < ds_list_size(tmp_waypoint); idw++) {
-        go_to = tmp_waypoint[| idw];
+        go_to = instance_create(tmp_waypoint[| idw].x, tmp_waypoint[| idw].y, o_waypoint);
         if (instance_exists(go_to)) {
             if (mp_grid_path(grid, path, mover.x, mover.y, go_to.x, go_to.y, true)) {
-                with (tmp_waypoint[| idw]) { go_to = instance_copy(false) };
+                go_to = instance_create(tmp_waypoint[| idw].x, tmp_waypoint[| idw].y, o_waypoint);
                 attempt = force_break;
+                break;
             }
         }
     }
-    go_to = default_goto;
+    
     attempt++;
     if (attempt > force_break) {
       s_destroy_list(cleanup);
       s_destroy_list(tmp_waypoint);
       return go_to;
     }
+    // Reset.
+    go_to = default_goto;
 } until (mp_grid_path(grid, path, mover.x, mover.y, go_to.x, go_to.y, true))
 s_destroy_list(cleanup);
 s_destroy_list(tmp_waypoint);
