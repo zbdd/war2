@@ -98,9 +98,6 @@ event_inherited();
           <argument>
             <kind>1</kind>
             <string>/// STATE: BUILD
-if (alarm[2] == 0) {
-   target = s_repair_target(target);
-}
 if (state == "build" &amp;&amp; alarm[2] == -1 &amp;&amp; target.o_health &lt; target.max_health) {
    // TODO Change sprites and their names.
    image_xscale = 1; 
@@ -114,6 +111,7 @@ if (state == "build" &amp;&amp; alarm[2] == -1 &amp;&amp; target.o_health &lt; t
     
     alarm[2] = build_speed;
     image_speed = gather_image_speed;
+    target = s_repair_target(target);
    
    if (next_state != "build") {
       alarm[2] = -1;
@@ -125,6 +123,7 @@ if (state == "build" &amp;&amp; target != noone) {
        if (object_is_ancestor(target.object_index, o_b_building)) {
           if (target.o_health &gt;= target.max_health) {
              next_state = "look";
+             alarm[2] = -1;
           }
        }
    }

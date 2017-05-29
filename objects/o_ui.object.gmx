@@ -50,6 +50,7 @@ depth = -10000000;
           <argument>
             <kind>1</kind>
             <string>// DRAW MENU ITEMS
+if (char == noone) return 0; 
 draw_set_colour(char.player.colour);
 draw_rectangle(42-8, 674-8, (42+72), 674+72, false);
 //draw_sprite(sprite_portrait,-1,42+(64/5),675 + (64/5));  

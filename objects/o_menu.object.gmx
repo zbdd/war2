@@ -88,7 +88,7 @@ menu_x_max = 791;
 switch (type) {
    case "build":
    // TOP
-    if (selected != noone) {
+   // if (selected != noone) {
        //if (ds_list_find_index(selected.types, "build") != -1) {
           button = instance_create(menu_x, menu_y, o_button);
           button.on_click = "show_build_menu";
@@ -101,7 +101,7 @@ switch (type) {
           ds_list_add(buttons, button);
        //}
     
-    }
+  //  }
     break;
     
     case "wood":

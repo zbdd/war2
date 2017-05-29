@@ -25,7 +25,9 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string></string>
+            <string>global.toolsui = instance_create(x,y,o_menu);
+global.toolsui.type = "build";
+</string>
           </argument>
         </arguments>
       </action>
