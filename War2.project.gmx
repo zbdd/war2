@@ -44,6 +44,7 @@
       <sprites name="Buttons">
         <sprite>sprites\spr_button_build</sprite>
         <sprite>sprites\spr_button_chop</sprite>
+        <sprite>sprites\spr_button_mine</sprite>
       </sprites>
     </sprites>
   </sprites>

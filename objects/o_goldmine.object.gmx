@@ -35,6 +35,68 @@ sprite_depleted = spr_depleted_goldmine;
         </arguments>
       </action>
     </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>event_inherited();
+if (mouse_check_button_released(mb_left) &amp;&amp; can_select &amp;&amp; (player == global.players[0])
+   &amp;&amp; o_mouse.state == "order_mine") {
+   if (point_in_rectangle(x, y, global.start_x, global.start_y, global.end_x, global.end_y)) {
+      if (available) available = false;
+      else available = true;
+   }
+   if (instance_position(mouse_x, mouse_y, self)) {
+      if (available) available = false;
+      else available = true;
+   }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (available) {
+   draw_sprite_stretched(spr_button_mine,0,x-5,y - (sprite_height/2) - 5,10,10);
+   draw_set_colour(c_red);
+   draw_rectangle(x-5,y - (sprite_height/2)-6,x+5,y - (sprite_height/2)+5,true )
+}
+draw_self();
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
   </events>
   <PhysicsObject>0</PhysicsObject>
   <PhysicsObjectSensor>0</PhysicsObjectSensor>

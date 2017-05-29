@@ -55,10 +55,13 @@ amount = 10;
 if (mouse_check_button_released(mb_left) &amp;&amp; can_select &amp;&amp; (player == global.players[0])
    &amp;&amp; o_mouse.state == "order_chop") {
    if (point_in_rectangle(x, y, global.start_x, global.start_y, global.end_x, global.end_y)) {
-      available = true;
+      if (available) available = false;
+      else available = true;
    }
-   if (instance_position(mouse_x, mouse_y, self)) available = true;
-   //else available = false;
+   if (instance_position(mouse_x, mouse_y, self)) {
+      if (available) available = false;
+      else available = true;
+   }
 }
 </string>
           </argument>
@@ -83,7 +86,9 @@ if (mouse_check_button_released(mb_left) &amp;&amp; can_select &amp;&amp; (playe
           <argument>
             <kind>1</kind>
             <string>if (available) {
-   draw_sprite_stretched(spr_button_chop,0,x,y - (sprite_height/2) - 10,10,10);
+   draw_sprite_stretched(spr_button_chop,0,x-5,y - (sprite_height/2) - 5,10,10);
+   draw_set_colour(c_red);
+   draw_rectangle(x-5,y - (sprite_height/2)-6,x+5,y - (sprite_height/2)+5,true )
 }
 draw_self();
 </string>
