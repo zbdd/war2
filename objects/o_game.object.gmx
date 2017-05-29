@@ -39,8 +39,6 @@ global.players[0] = instance_create(x,y,o_player);
 global.players[1] = instance_create(x,y,o_player);
 global.players[1].colour = c_red;
 
-global.waypoints = ds_map_create();
-global.waypoints_dist = ds_map_create();
 global.selected = ds_list_create();
 
 selected = noone;

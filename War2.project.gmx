@@ -36,6 +36,7 @@
       <sprite>sprites\spr_goldmine</sprite>
       <sprite>sprites\spr_depleted_goldmine</sprite>
     </sprites>
+    <sprite>sprites\spr_mine</sprite>
     <sprite>sprites\spr_chop</sprite>
     <sprite>sprites\spr_mouse</sprite>
     <sprites name="Menu">
@@ -66,6 +67,8 @@
     <script>scripts\s_update_ui.gml</script>
     <script>scripts\s_is_in_main_view.gml</script>
     <script>scripts\s_repair_target.gml</script>
+    <script>scripts\s_deselect.gml</script>
+    <script>scripts\s_add_selected.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\o_cover</object>

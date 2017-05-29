@@ -262,10 +262,19 @@ if (s_is_in_main_view()) {
         if (mouse_check_button_released(mb_left) &amp;&amp; can_select &amp;&amp; (player == global.players[0])
            &amp;&amp; o_mouse.state == "default") {
            if (point_in_rectangle(x, y, global.start_x, global.start_y, global.end_x, global.end_y)) {
-              run_once = "select";
+              //run_once = "select";
+              is_selected = true;
            }
-           else if (instance_position(mouse_x, mouse_y, self)) run_once = "select";
+           else if (instance_position(mouse_x, mouse_y, self)) is_selected = true;
            else is_selected = false;
+           
+           if (is_selected) {
+               s_update_ui(self);
+               s_add_selected(self);
+           } else {
+              s_deselect(self);
+              is_selected = false;
+           }
         }
         // Move to via Path.
         if (is_selected &amp;&amp; mouse_check_button_pressed(mb_right) &amp;&amp; o_mouse.state == "default") {
@@ -290,19 +299,6 @@ if (s_is_in_main_view()) {
           o_mouse.state = "default"; 
        }
     }
-}
-
-// Create Menu.
-if (is_leader &amp;&amp; is_selected &amp;&amp; menu == noone) {
-   menu = instance_create(x,y,o_menu);
-   menu.selected = id;
-   menu.type = "build";
-   s_update_ui(self);
-}
-if (! is_selected &amp;&amp; menu != noone) {
-   with (menu) { instance_destroy(); }
-   menu = noone;
-   with (global.ui) { instance_destroy(); }
 }
 
 if (health &lt; 1) {
