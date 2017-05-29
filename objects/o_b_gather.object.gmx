@@ -67,7 +67,7 @@ wood = 0;
 if (target != noone) {
    if (instance_exists(target)) { 
        if (object_is_ancestor(target.object_index, o_b_resource)) {
-          show_debug_message("[" + string(id) + "] Mined : " + string(target.type) + " from [" + string(target.id) + "] Amount Left: " + string(target.amount));
+          //show_debug_message("[" + string(id) + "] Mined : " + string(target.type) + " from [" + string(target.id) + "] Amount Left: " + string(target.amount));
              if (target.amount &gt; 0) {
                 switch (target.type) {
                        case "wood":

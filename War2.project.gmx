@@ -61,14 +61,15 @@
     <script>scripts\s_get_selected.gml</script>
     <script>scripts\s_place_building.gml</script>
     <script>scripts\s_create_grid_exclude.gml</script>
-    <script>scripts\s_choose_chop.gml</script>
     <script>scripts\s_find_mineable_type.gml</script>
     <script>scripts\s_find_repairable.gml</script>
     <script>scripts\s_update_ui.gml</script>
     <script>scripts\s_is_in_main_view.gml</script>
     <script>scripts\s_repair_target.gml</script>
+    <script>scripts\s_find_free_spot_around.gml</script>
     <script>scripts\s_deselect.gml</script>
     <script>scripts\s_add_selected.gml</script>
+    <script>scripts\s_destroy_list.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\o_cover</object>
