@@ -24,7 +24,6 @@ do {
         cx = go_to.x + (attempt * 10) * cos(ida * pi / 180);
         cy = go_to.y + (attempt * 10) * sin(ida * pi / 180);
         var waypoint = instance_create(cx,cy,o_waypoint);
-        waypoint.parent = go_to;
         ds_list_add(tmp_waypoint, waypoint)
     }
 

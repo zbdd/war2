@@ -425,6 +425,13 @@ if (state == "moving") {
        
        path_delete(path);
        path = noone;
+       
+       // Is another dude on/under me?
+       inst = s_collision_point_list(x,y,o_b_creep,true,true)
+       if (inst) {
+          next_target = s_find_free_spot_around(self,self);
+          next_state = "force_move";
+       } else {
 
        // Get instance under the waypoint.
        var obj_under = noone;
@@ -457,6 +464,7 @@ if (state == "moving") {
                  }    
               }
         }
+      }
       }
             
       with (waypoint) { instance_destroy(); }
@@ -713,7 +721,7 @@ if (defense &gt; 0) {
 //   image_blend = c_red;
 //}
 draw_set_colour(c_red);
-draw_text(x - sprite_width, y - sprite_height, string(id) + " : " + string(state));
+//draw_text(x - sprite_width, y - sprite_height, string(id) + " : " + string(state));
 
 // DEBUG
 if (path_position != 1 &amp;&amp; path != noone) draw_path(path, x, y, true);

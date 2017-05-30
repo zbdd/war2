@@ -55,6 +55,7 @@
   <paths name="paths"/>
   <scripts name="scripts">
     <script>scripts\s_create_squad.gml</script>
+    <script>scripts\s_check_for_collision.gml</script>
     <script>scripts\s_find_nearest_spot.gml</script>
     <script>scripts\s_create_grid.gml</script>
     <script>scripts\s_instance_nearest_notme.gml</script>
@@ -71,6 +72,7 @@
     <script>scripts\s_add_selected.gml</script>
     <script>scripts\s_convert_to_waypoint.gml</script>
     <script>scripts\s_destroy_list.gml</script>
+    <script>scripts\s_collision_point_list.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\o_cover</object>

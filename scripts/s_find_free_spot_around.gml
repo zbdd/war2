@@ -16,8 +16,7 @@ do {
       waypoint = instance_create(cx,cy,o_waypoint);
       ds_list_add(cleanup, waypoint)
       with (waypoint) {
-          if(collision_circle(cx,cy,32,o_b_building,false,true) == noone
-             && collision_circle(cx,cy,32,o_b_creep,false,true) == noone) {
+          if(!s_check_for_collision(cx,cy)) {
              ds_list_add(tmp_waypoint, waypoint)
           }
       }
