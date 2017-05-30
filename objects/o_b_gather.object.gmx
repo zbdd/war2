@@ -37,6 +37,7 @@ gather_image_speed = 0.3;
 gather_amount = 10;
 gather_search_distance = 100;
 gather_amount_max = 20;
+gather_min_distance = 10;
 index = noone;
 next_target = noone;
 gold = 0;

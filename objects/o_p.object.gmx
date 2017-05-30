@@ -107,7 +107,7 @@ if (zacai == "think") {
             next_target = closest;
             next_state = "force_move";
             zacai = "chop";
-            show_debug_message("[" + string(id) + "] zacai: " + zacai + " state: " + string(next_state));
+            //show_debug_message("[" + string(id) + "] zacai: " + zacai + " state: " + string(next_state));
             exit;
          }
          break;
@@ -118,7 +118,7 @@ if (zacai == "think") {
             next_target = closest;
             next_state = "force_move";
             zacai = "repair";
-            show_debug_message("[" + string(id) + "] zacai: " + zacai + " state: " + string(next_state));
+            //show_debug_message("[" + string(id) + "] zacai: " + zacai + " state: " + string(next_state));
             exit;
          }
          break;

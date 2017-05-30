@@ -369,10 +369,7 @@ if (state == "move") {
         
        grid = s_create_grid_exclude(self);
        path = path_add();
-       
-       // TODO The fuck was this for? 
-       var herepoint = instance_create(x, y, o_waypoint);
-       waypoint = s_find_nearest_spot(target, herepoint, grid);
+       waypoint = s_find_nearest_spot(target, self, grid);
    }
    if (waypoint == noone) next_state = "default";
        
@@ -426,28 +423,37 @@ if (state == "moving") {
        path_delete(path);
        path = noone;
 
-      // Handle gather logic.
-      if (ds_list_find_index(types,"gather") != -1) {
-         if (target != noone &amp;&amp; instance_exists(target)) {
-            if (object_is_ancestor(target.object_index, o_b_resource)) next_state = "gather";
-            else if (object_is_ancestor(target.object_index, o_b_dropoff) &amp;&amp; amount &gt; 0) next_state = "drop_off";
-            else if (return_to != noone) next_state = "gather_next";
-         } else if (return_to != noone) next_state = "gather_next";
-      }
+       // Get instance under the waypoint.
+       var obj_under = noone;
+       if (target != noone &amp;&amp; instance_exists(target)) {
+          if (object_get_name(target.object_index) == "o_waypoint") {
+             obj_under = instance_position(target.x, target.y, o_b_gather);
+             if (!obj_under)
+                obj_under = instance_position(target.x, target.y, o_b_building);
+             if (obj_under) target = obj_under;
+          }
+          
+          if (object_get_name(target.object_index) != "o_waypoint") {
+              // Handle gather logic.
+              if (ds_list_find_index(types,"gather") != -1) {
+                if (object_is_ancestor(target.object_index, o_b_resource)) next_state = "gather";
+                else if (object_is_ancestor(target.object_index, o_b_dropoff) &amp;&amp; amount &gt; 0) next_state = "drop_off";
+                else if (return_to != noone) next_state = "gather_next";
+             } else if (return_to != noone) next_state = "gather_next";
         
-      // Handle build and repair logic.
-      if (ds_list_find_index(types,"build") != -1 &amp;&amp; next_state == "moving") {
-          if (target != noone &amp;&amp; instance_exists(target)) {
-             if (player == target.player) {
-                 if (object_is_ancestor(target.object_index, o_b_building) &amp;&amp;
-                    (target.o_health &lt; target.max_health)) {
-                     next_state = "build";
+              // Handle build and repair logic. (or fight)
+              if (ds_list_find_index(types,"build") != -1 &amp;&amp; next_state == "moving") {
+                 if (player == target.player) {
+                     if (object_is_ancestor(target.object_index, o_b_building) &amp;&amp;
+                        (target.o_health &lt; target.max_health)) {
+                         next_state = "build";
+                     }
                  }
-             }
-             else {
-                  next_state = "fight";
-             }    
-         }
+                 else {
+                      next_state = "fight";
+                 }    
+              }
+        }
       }
             
       with (waypoint) { instance_destroy(); }
@@ -496,6 +502,13 @@ if (state == "force_move") {
    waypoint = noone;
    return_to = noone;
    next_state = "move";
+   
+   if (object_get_name(target.object_index) != "o_waypoint") {
+      target = instance_create(target.x + target.sprite_width/2, target.y + target.sprite_height/2, o_waypoint);
+   } else
+      target = instance_create(target.x, target.y, o_waypoint);
+   
+   
    if (!is_undefined(target))
       index = target;
 }
