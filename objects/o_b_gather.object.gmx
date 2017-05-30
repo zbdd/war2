@@ -223,7 +223,7 @@ if (state == "gather_return") {
          next_state = "look";
          }
       else {
-       show_debug_message("[" + string(id) + "] Returning to [" + string(target.id) + "]");
+      // show_debug_message("[" + string(id) + "] Returning to [" + string(target.id) + "]");
        next_state = "move";
       }
        

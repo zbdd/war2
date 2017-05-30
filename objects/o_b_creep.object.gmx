@@ -367,6 +367,7 @@ if (state == "move") {
  
     if (target != noone &amp;&amp; instance_exists(target)) {
         
+       target = s_convert_to_waypoint(target);
        grid = s_create_grid_exclude(self);
        path = path_add();
        waypoint = s_find_nearest_spot(target, self, grid);
@@ -502,12 +503,7 @@ if (state == "force_move") {
    waypoint = noone;
    return_to = noone;
    next_state = "move";
-   
-   if (object_get_name(target.object_index) != "o_waypoint") {
-      target = instance_create(target.x + target.sprite_width/2, target.y + target.sprite_height/2, o_waypoint);
-   } else
-      target = instance_create(target.x, target.y, o_waypoint);
-   
+   target = s_convert_to_waypoint(target);
    
    if (!is_undefined(target))
       index = target;

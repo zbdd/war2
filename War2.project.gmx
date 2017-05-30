@@ -69,6 +69,7 @@
     <script>scripts\s_find_free_spot_around.gml</script>
     <script>scripts\s_deselect.gml</script>
     <script>scripts\s_add_selected.gml</script>
+    <script>scripts\s_convert_to_waypoint.gml</script>
     <script>scripts\s_destroy_list.gml</script>
   </scripts>
   <objects name="objects">
