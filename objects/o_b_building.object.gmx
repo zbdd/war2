@@ -102,11 +102,7 @@ peon_type = o_p;
           <argument>
             <kind>1</kind>
             <string>/// Generate peon
-spot = s_find_free_spot_around(self, peon_type);
-if (spot != noone) {
-   peon = instance_create(spot.x, spot.y, peon_type);
-   ds_list_add(peons, peon);
-}
+
 </string>
           </argument>
         </arguments>
@@ -167,9 +163,17 @@ can_select = true;
        }
    }
 }
+
 if (ds_list_find_index(types, "generate") != -1) {
    if (ds_list_size(peons) &lt; peon_max)
-      if (alarm[1] == -1) alarm[1] = generate_speed * room_speed;
+      if (alarm[1] == -1) {
+          alarm[1] = generate_speed * room_speed;
+          spot = s_find_free_spot_around(self, peon_type);
+            if (spot != noone) {
+               peon = instance_create(spot.x, spot.y, peon_type);
+               ds_list_add(peons, peon);
+            }
+          }
 }
 </string>
           </argument>

@@ -1,5 +1,5 @@
-var obj = noone;
-with (argument0) { obj = instance_copy(false); }
+var obj = argument0;
+obj = instance_create(obj.x,obj.y,o_waypoint);
 var peon = argument1;
 var cy =0;
 var cx =0;
