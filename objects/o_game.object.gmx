@@ -48,7 +48,7 @@ draw = false;
 
 //instance_create(192, 64, o_p);
 //instance_create(352, 64, o_p);
-s_create_squad(192, 64, o_p, 1, global.players[0]);
+//s_create_squad(192, 64, o_p, 1, global.players[0]);
 //s_create_squad(300, 80, o_p, 1, global.players[1]);
 //s_create_squad(352, 64, o_p, 5);
 </string>

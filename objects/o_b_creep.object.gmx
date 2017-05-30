@@ -128,11 +128,14 @@ state_count = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (target != noone || instance_exists(target)) {
-   target.o_health = target.o_health - dmg;
-   show_debug_message("hit....")
+            <string>/// Delay actions
+if (state == "fight") {
+    if (target != noone || instance_exists(target)) {
+       target.o_health = target.o_health - dmg;
+       // TODO
+       show_debug_message("hit....")
+    }
 }
-show_debug_message("miss....")
 </string>
           </argument>
         </arguments>
@@ -190,7 +193,7 @@ if (run_once = "select") {
           <argument>
             <kind>1</kind>
             <string>/// FINAL STEP - RUN ALWAYS
-if (next_state == state) state_count++
+if (next_state == state) alarm[0] = 1 * room_speed;
 else {
      state_count = 0;
      last_state = state;
@@ -301,7 +304,7 @@ if (s_is_in_main_view()) {
     }
 }
 
-if (health &lt; 1) {
+if (o_health &lt; 1) {
    instance_create(x,y,o_dead);
    instance_destroy();
 }
@@ -365,8 +368,7 @@ if (state == "move") {
       mp_grid_destroy(grid);
    }
  
-    if (target != noone &amp;&amp; instance_exists(target)) {
-        
+    if (target != noone &amp;&amp; instance_exists(target)) {     
        target = s_convert_to_waypoint(target);
        grid = s_create_grid_exclude(self);
        path = path_add();
@@ -374,7 +376,7 @@ if (state == "move") {
    }
    if (waypoint == noone) next_state = "default";
        
-    if (waypoint != noone &amp;&amp; path != noone) {
+    if (waypoint &amp;&amp; path) {
        // Clean up waypoints.
        //if (object_get_name(target.object_index) == o_waypoint) with (target) { instance_destroy(); };
        
