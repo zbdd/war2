@@ -513,7 +513,7 @@ if (state == "force_move") {
    waypoint = noone;
    return_to = noone;
    next_state = "move";
-   target = s_convert_to_waypoint(target);
+   if (target) target = s_convert_to_waypoint(target);
    
    if (!is_undefined(target))
       index = target;

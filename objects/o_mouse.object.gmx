@@ -110,11 +110,9 @@ if (state == "build") {
    else image_blend = c_red;
    sprite_index = build_type.sprite_index;
 }
-else if (state == "order_chop") {
-     sprite_index = spr_chop;
-}
-else
-    sprite_index = spr_mouse;
+else if (state == "order_chop") sprite_index = spr_chop;
+else if (state == "order_mine") sprite_index = spr_mine;
+else sprite_index = spr_mouse;
 draw_text(x - 50, y - 50, state);
 draw_self();
 </string>

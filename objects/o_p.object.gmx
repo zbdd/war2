@@ -107,7 +107,16 @@ if (zacai == "think") {
             next_target = closest;
             next_state = "force_move";
             zacai = "chop";
-            //show_debug_message("[" + string(id) + "] zacai: " + zacai + " state: " + string(next_state));
+            exit;
+         }
+         break;
+         
+         case "mine":
+         closest = s_find_mineable_type(self, "gold");
+         if (closest != noone) {
+            next_target = closest;
+            next_state = "force_move";
+            zacai = "mine";
             exit;
          }
          break;
