@@ -429,8 +429,13 @@ if (state == "moving") {
        // Is another dude on/under me?
        inst = s_collision_point_list(x,y,o_b_creep,true,true)
        if (inst) {
-          next_target = s_find_free_spot_around(self,self);
-          next_state = "force_move";
+          for (var idx = 0; idx &lt; ds_list_size(inst); idx++) {
+             with (inst[| idx]) {
+                state = "force_control";
+                next_target = s_find_free_spot_around(self,self);
+                next_state = "force_move";
+             }
+          }
        } else {
 
        // Get instance under the waypoint.
